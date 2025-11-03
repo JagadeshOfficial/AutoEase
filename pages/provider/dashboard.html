@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provider Dashboard - AutoEase</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/apexcharts/dist/apexcharts.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="container-fluid mt-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 d-none d-lg-block">
+                <div class="dashboard-sidebar p-3 bg-white rounded-3 shadow-sm">
+                    <div class="provider-profile text-center mb-4">
+                        <div class="avatar-container mb-3">
+                            <img src="https://ui-avatars.com/api/?name=Service+Provider&background=2563eb&color=fff" 
+                                 class="rounded-circle" style="width: 80px; height: 80px;">
+                            <span class="status-badge online"></span>
+                        </div>
+                        <h6 class="mb-1" id="providerName">Service Provider</h6>
+                        <p class="text-muted small mb-2" id="providerEmail"></p>
+                        <span class="badge bg-success">Available</span>
+                    </div>
+                    <div class="sidebar-menu">
+                        <a href="#dashboard" class="d-flex align-items-center p-2 rounded-3 text-decoration-none active">
+                            <i class="bx bxs-dashboard me-2"></i> Dashboard
+                        </a>
+                        <a href="#schedule" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
+                            <i class="bx bxs-calendar me-2"></i> Schedule
+                        </a>
+                        <a href="#jobs" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
+                            <i class="bx bxs-briefcase me-2"></i> Jobs
+                        </a>
+                        <a href="#reviews" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
+                            <i class="bx bxs-star me-2"></i> Reviews
+                        </a>
+                        <a href="#earnings" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
+                            <i class="bx bxs-wallet me-2"></i> Earnings
+                        </a>
+                        <a href="#settings" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
+                            <i class="bx bxs-cog me-2"></i> Settings
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Dashboard Content -->
+            <div class="col-lg-10">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h1 class="h3 mb-0">Provider Dashboard</h1>
+                        <p class="text-muted mb-0">Welcome back! Here's what's happening today</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#availabilityModal">
+                            <i class="bx bx-time"></i> Set Availability
+                        </button>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                <i class="bx bx-plus"></i> Actions
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="createInvoice()">Create Invoice</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="addService()">Add Service</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="generateReport()">Generate Report</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="stat-card dashboard-card">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="text-white-50">Today's Jobs</h6>
+                                    <h3 class="mb-0" id="todayJobs">0</h3>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="bx bx-calendar-check fs-1"></i>
+                                </div>
+                            </div>
+                            <div class="progress mt-3" style="height: 4px;">
+                                <div class="progress-bar" style="width: 65%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card dashboard-card" style="background: linear-gradient(135deg, #22c55e, #16a34a)">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="text-white-50">Completed Jobs</h6>
+                                    <h3 class="mb-0" id="completedJobs">0</h3>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="bx bx-check-circle fs-1"></i>
+                                </div>
+                            </div>
+                            <div class="progress mt-3" style="height: 4px;">
+                                <div class="progress-bar" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card dashboard-card" style="background: linear-gradient(135deg, #f59e0b, #d97706)">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="text-white-50">Pending Jobs</h6>
+                                    <h3 class="mb-0" id="pendingJobs">0</h3>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="bx bx-time-five fs-1"></i>
+                                </div>
+                            </div>
+                            <div class="progress mt-3" style="height: 4px;">
+                                <div class="progress-bar" style="width: 45%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card dashboard-card" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9)">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="text-white-50">Today's Earnings</h6>
+                                    <h3 class="mb-0" id="todayEarnings">$0</h3>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="bx bx-dollar-circle fs-1"></i>
+                                </div>
+                            </div>
+                            <div class="progress mt-3" style="height: 4px;">
+                                <div class="progress-bar" style="width: 60%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calendar and Revenue -->
+                <div class="row mb-4">
+                    <div class="col-md-8">
+                        <div class="dashboard-card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h5 class="card-title mb-0">Schedule Overview</h5>
+                                    <div class="btn-group">
+                                        <button class="btn btn-outline-primary btn-sm" onclick="changeCalendarView('dayGridMonth')">Month</button>
+                                        <button class="btn btn-outline-primary btn-sm" onclick="changeCalendarView('timeGridWeek')">Week</button>
+                                        <button class="btn btn-outline-primary btn-sm" onclick="changeCalendarView('timeGridDay')">Day</button>
+                                    </div>
+                                </div>
+                                <div id="providerCalendar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="dashboard-card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4">Revenue Overview</h5>
+                                <div id="revenueChart"></div>
+                                <div class="mt-4">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Monthly Target</span>
+                                        <span class="fw-bold">$10,000</span>
+                                    </div>
+                                    <div class="progress" style="height: 6px;">
+                                        <div class="progress-bar bg-success" style="width: 75%"></div>
+                                    </div>
+                                    <p class="text-muted small mt-2">75% of monthly target reached</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Jobs and Customer Reviews -->
+                <div class="row mb-4">
+                    <div class="col-md-7">
+                        <div class="dashboard-card">
+                            <div class="card-header border-0 bg-transparent">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Recent Jobs</h5>
+                                    <div class="btn-group">
+                                        <button class="btn btn-outline-primary btn-sm active">All</button>
+                                        <button class="btn btn-outline-primary btn-sm">Pending</button>
+                                        <button class="btn btn-outline-primary btn-sm">In Progress</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Job ID</th>
+                                                <th>Customer</th>
+                                                <th>Service</th>
+                                                <th>Date</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="recentJobsList">
+                                            <!-- Jobs will be loaded here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="dashboard-card">
+                            <div class="card-header border-0 bg-transparent">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Recent Reviews</h5>
+                                    <a href="#" class="text-primary">View All</a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="reviewsList">
+                                    <!-- Reviews will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance Metrics -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="dashboard-card">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4">Service Performance</h5>
+                                <div id="servicePerformanceChart"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="dashboard-card">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4">Customer Satisfaction</h5>
+                                <div class="row text-center">
+                                    <div class="col-4">
+                                        <div class="satisfaction-score">
+                                            <h2 class="mb-0">4.8</h2>
+                                            <p class="text-muted mb-0">Average Rating</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="satisfaction-score">
+                                            <h2 class="mb-0">95%</h2>
+                                            <p class="text-muted mb-0">Satisfaction</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="satisfaction-score">
+                                            <h2 class="mb-0">87%</h2>
+                                            <p class="text-muted mb-0">Return Rate</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="satisfactionChart" class="mt-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Set Availability Modal -->
+    <div class="modal fade" id="availabilityModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Set Availability</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="availabilityForm">
+                        <div class="mb-3">
+                            <label class="form-label">Date Range</label>
+                            <input type="text" class="form-control" id="dateRange">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Working Hours</label>
+                            <div class="row g-2">
+                                <div class="col">
+                                    <input type="time" class="form-control" id="startTime" value="09:00">
+                                </div>
+                                <div class="col">
+                                    <input type="time" class="form-control" id="endTime" value="17:00">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Break Time</label>
+                            <div class="row g-2">
+                                <div class="col">
+                                    <input type="time" class="form-control" id="breakStart" value="12:00">
+                                </div>
+                                <div class="col">
+                                    <input type="time" class="form-control" id="breakEnd" value="13:00">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Working Days</label>
+                            <div class="btn-group d-flex flex-wrap gap-2" role="group">
+                                <input type="checkbox" class="btn-check" id="monday" checked>
+                                <label class="btn btn-outline-primary" for="monday">Mon</label>
+                                <input type="checkbox" class="btn-check" id="tuesday" checked>
+                                <label class="btn btn-outline-primary" for="tuesday">Tue</label>
+                                <input type="checkbox" class="btn-check" id="wednesday" checked>
+                                <label class="btn btn-outline-primary" for="wednesday">Wed</label>
+                                <input type="checkbox" class="btn-check" id="thursday" checked>
+                                <label class="btn btn-outline-primary" for="thursday">Thu</label>
+                                <input type="checkbox" class="btn-check" id="friday" checked>
+                                <label class="btn btn-outline-primary" for="friday">Fri</label>
+                                <input type="checkbox" class="btn-check" id="saturday">
+                                <label class="btn btn-outline-primary" for="saturday">Sat</label>
+                                <input type="checkbox" class="btn-check" id="sunday">
+                                <label class="btn btn-outline-primary" for="sunday">Sun</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Save Availability</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/booking.js"></script>
+    <script>
+        let calendar;
+        let revenueChart;
+        let serviceChart;
+        let satisfactionChart;
+
+        // Load components and initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadComponent('header-placeholder', '/components/header.html');
+            loadComponent('footer-placeholder', '/components/footer.html');
+            
+            // Check authentication
+            const auth = checkAuth();
+            if (auth.userType !== 'provider') {
+                window.location.href = '/index.html';
+            }
+
+            // Initialize user profile
+            document.getElementById('providerEmail').textContent = auth.userEmail;
+            loadProviderProfile();
+
+            // Initialize components
+            initializeCalendar();
+            initializeCharts();
+            initializeDateRangePicker();
+            
+            // Load dashboard data
+            loadRecentJobs();
+            loadReviews();
+            updateDashboardStats();
+        });
+
+        // Initialize FullCalendar
+        function initializeCalendar() {
+            const calendarEl = document.getElementById('providerCalendar');
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridWeek',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                events: getCalendarEvents(),
+                editable: true,
+                selectable: true,
+                businessHours: {
+                    daysOfWeek: [1, 2, 3, 4, 5],
+                    startTime: '09:00',
+                    endTime: '17:00',
+                },
+                select: function(info) {
+                    // Handle date selection
+                    showBookingModal(info.start, info.end);
+                },
+                eventClick: function(info) {
+                    // Handle event click
+                    showEventDetails(info.event);
+                }
+            });
+            calendar.render();
+        }
+
+        // Initialize Charts
+        function initializeCharts() {
+            // Revenue Chart
+            const revenueOptions = {
+                series: [{
+                    name: 'Revenue',
+                    data: [4400, 5500, 4100, 5800, 6200, 7800]
+                }],
+                chart: {
+                    type: 'area',
+                    height: 250,
+                    toolbar: {
+                        show: false
+                    }
+                },
+                colors: ['#2563eb'],
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.7,
+                        opacityTo: 0.3
+                    }
+                },
+                xaxis: {
+                    categories: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb']
+                }
+            };
+            revenueChart = new ApexCharts(document.querySelector("#revenueChart"), revenueOptions);
+            revenueChart.render();
+
+            // Service Performance Chart
+            const serviceOptions = {
+                series: [{
+                    name: 'Completed',
+                    data: [44, 55, 57, 56, 61, 58]
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 300
+                },
+                colors: ['#22c55e'],
+                xaxis: {
+                    categories: ['Oil Change', 'Brake Service', 'Tire Rotation', 'Engine Repair', 'AC Service', 'Inspection']
+                }
+            };
+            serviceChart = new ApexCharts(document.querySelector("#servicePerformanceChart"), serviceOptions);
+            serviceChart.render();
+
+            // Satisfaction Chart
+            const satisfactionOptions = {
+                series: [75],
+                chart: {
+                    type: 'radialBar',
+                    height: 250
+                },
+                colors: ['#2563eb'],
+                plotOptions: {
+                    radialBar: {
+                        hollow: {
+                            size: '70%'
+                        },
+                        dataLabels: {
+                            show: true,
+                            name: {
+                                offsetY: -10,
+                                show: true,
+                                color: '#888',
+                                fontSize: '13px'
+                            },
+                            value: {
+                                color: '#111',
+                                fontSize: '30px',
+                                show: true
+                            }
+                        }
+                    }
+                },
+                labels: ['Customer Satisfaction']
+            };
+            satisfactionChart = new ApexCharts(document.querySelector("#satisfactionChart"), satisfactionOptions);
+            satisfactionChart.render();
+        }
+
+        // Initialize Date Range Picker
+        function initializeDateRangePicker() {
+            $('#dateRange').daterangepicker({
+                startDate: moment(),
+                endDate: moment().add(7, 'days'),
+                locale: {
+                    format: 'YYYY-MM-DD'
+                }
+            });
+        }
+
+        // Get calendar events
+        function getCalendarEvents() {
+            const bookings = getBookings();
+            return bookings.map(booking => ({
+                id: booking.id,
+                title: `${booking.serviceCategory} - ${booking.specificService}`,
+                start: `${booking.serviceDate}T${booking.serviceTime}`,
+                end: moment(`${booking.serviceDate}T${booking.serviceTime}`).add(2, 'hours').format(),
+                backgroundColor: getStatusColor(booking.status)
+            }));
+        }
+
+        // Get status color for calendar events
+        function getStatusColor(status) {
+            switch(status) {
+                case 'pending': return '#f59e0b';
+                case 'confirmed': return '#2563eb';
+                case 'completed': return '#22c55e';
+                case 'cancelled': return '#ef4444';
+                default: return '#6b7280';
+            }
+        }
+
+        // Load recent jobs
+        function loadRecentJobs() {
+            const bookings = getBookings().slice(0, 5);
+            const recentJobsList = document.getElementById('recentJobsList');
+            
+            recentJobsList.innerHTML = bookings.map(booking => `
+                <tr>
+                    <td>#${booking.id}</td>
+                    <td>${booking.userEmail}</td>
+                    <td>${booking.serviceCategory}</td>
+                    <td>${booking.serviceDate}</td>
+                    <td><span class="badge bg-${getStatusBadgeColor(booking.status)}">${booking.status}</span></td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-primary" onclick="viewJobDetails(${booking.id})">
+                                <i class="bx bx-show"></i>
+                            </button>
+                            <button class="btn btn-outline-primary" onclick="updateJobStatus(${booking.id})">
+                                <i class="bx bx-edit"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Load reviews
+        function loadReviews() {
+            const reviews = [
+                { customer: 'John D.', rating: 5, comment: 'Excellent service!', date: '2025-11-01' },
+                { customer: 'Sarah M.', rating: 4, comment: 'Very professional.', date: '2025-10-30' },
+                { customer: 'Mike R.', rating: 5, comment: 'Great work!', date: '2025-10-29' }
+            ];
+
+            const reviewsList = document.getElementById('reviewsList');
+            reviewsList.innerHTML = reviews.map(review => `
+                <div class="review-item mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div>
+                            <h6 class="mb-0">${review.customer}</h6>
+                            <div class="rating">
+                                ${Array(5).fill().map((_, i) => `
+                                    <i class="bx ${i < review.rating ? 'bxs-star' : 'bx-star'} text-warning"></i>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <small class="text-muted">${review.date}</small>
+                    </div>
+                    <p class="mb-0">${review.comment}</p>
+                </div>
+            `).join('');
+        }
+
+        // Update dashboard statistics
+        function updateDashboardStats() {
+            const bookings = getBookings();
+            const today = moment().format('YYYY-MM-DD');
+            
+            const todayJobs = bookings.filter(b => b.serviceDate === today).length;
+            const completed = bookings.filter(b => b.status === 'completed').length;
+            const pending = bookings.filter(b => b.status === 'pending').length;
+            const todayEarnings = bookings
+                .filter(b => b.serviceDate === today && b.status === 'completed')
+                .reduce((sum, b) => sum + parseFloat(b.price || 0), 0);
+
+            document.getElementById('todayJobs').textContent = todayJobs;
+            document.getElementById('completedJobs').textContent = completed;
+            document.getElementById('pendingJobs').textContent = pending;
+            document.getElementById('todayEarnings').textContent = formatCurrency(todayEarnings);
+        }
+
+        // Handle calendar view change
+        function changeCalendarView(view) {
+            calendar.changeView(view);
+        }
+
+        // Show booking details modal
+        function showBookingModal(start, end) {
+            // Implement booking modal logic
+        }
+
+        // Show event details
+        function showEventDetails(event) {
+            // Implement event details modal logic
+        }
+
+        // View job details
+        function viewJobDetails(jobId) {
+            // Implement job details view logic
+        }
+
+        // Update job status
+        function updateJobStatus(jobId) {
+            // Implement status update logic
+        }
+
+        // Create invoice
+        function createInvoice() {
+            // Implement invoice creation logic
+        }
+
+        // Add service
+        function addService() {
+            // Implement service addition logic
+        }
+
+        // Generate report
+        function generateReport() {
+            // Implement report generation logic
+        }
+
+        // Load provider profile
+        function loadProviderProfile() {
+            const providerProfile = JSON.parse(localStorage.getItem('providerProfile')) || {};
+            if (providerProfile.name) {
+                document.getElementById('providerName').textContent = providerProfile.name;
+            }
+        }
+    </script>
+</body>
+</html>

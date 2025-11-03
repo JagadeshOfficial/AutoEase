@@ -1,0 +1,102 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <i class='bx bxs-car text-primary me-2'></i>
+            <span class="text-primary fw-bold">AutoEase</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center gap-3">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">
+                            <i class='bx bx-home-alt me-1'></i>
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">
+                            <i class='bx bx-car me-1'></i>
+                            Services
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">
+                            <i class='bx bx-info-circle me-1'></i>
+                            About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">
+                            <i class='bx bx-envelope me-1'></i>
+                            Contact
+                        </a>
+                    </li>
+                    <!-- Auth Buttons for non-logged in users -->
+                    <li class="nav-item dropdown ms-2">
+                        <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class='bx bx-user-circle me-1'></i>
+                            Account
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><h6 class="dropdown-header">Login As</h6></li>
+                            <li><a class="dropdown-item" href="#" onclick="showLoginModal('resident')">
+                                <i class='bx bx-user me-2'></i>Resident Login
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="showLoginModal('provider')">
+                                <i class='bx bxs-car-garage me-2'></i>Service Provider Login
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="showLoginModal('admin')">
+                                <i class='bx bx-shield-quarter me-2'></i>Admin Login
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h6 class="dropdown-header">Register</h6></li>
+                            <li><a class="dropdown-item" href="#" onclick="showRegisterModal('resident')">
+                                <i class='bx bx-user-plus me-2'></i>Register as Resident
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="showRegisterModal('provider')">
+                                <i class='bx bx-store-alt me-2'></i>Join as Service Provider
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+    </div>
+</nav>
+<script>
+    // Update navigation based on auth status
+    document.addEventListener('DOMContentLoaded', function() {
+        const userEmail = localStorage.getItem('userEmail');
+        const userType = localStorage.getItem('userType');
+        const userName = localStorage.getItem('userName');
+        const loggedOutNav = document.querySelector('.logged-out-nav');
+        const loggedInNav = document.querySelector('.logged-in-nav');
+        const userNameElement = document.querySelector('.user-name');
+        const userRoleElement = document.querySelector('.user-role');
+        const dashboardLink = document.getElementById('dashboardLink');
+
+        if (userEmail && userType) {
+            loggedOutNav.style.display = 'none';
+            loggedInNav.style.display = 'flex';
+            userNameElement.textContent = userName || userEmail;
+            userRoleElement.textContent = userType.charAt(0).toUpperCase() + userType.slice(1);
+            
+            // Set dashboard link based on user type
+            switch(userType) {
+                case 'admin':
+                    dashboardLink.href = '/pages/admin/dashboard.html';
+                    break;
+                case 'provider':
+                    dashboardLink.href = '/pages/provider/dashboard.html';
+                    break;
+                case 'resident':
+                    dashboardLink.href = '/pages/resident/dashboard.html';
+                    break;
+            }
+        } else {
+            loggedOutNav.style.display = 'flex';
+            loggedInNav.style.display = 'none';
+        }
+    });
+</script>

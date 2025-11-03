@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Service - AutoEase</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="main-content py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold">Book Your Car Service</h1>
+                <p class="lead">Premium car care services at your doorstep in your gated community</p>
+            </div>
+
+            <!-- Service Booking Form -->
+            <div class="booking-form">
+                <div class="progress-steps mb-5">
+                    <div class="step active" id="step1">
+                        <div class="step-icon">
+                            <i class="bx bx-car"></i>
+                        </div>
+                        <span>Select Service</span>
+                    </div>
+                    <div class="step" id="step2">
+                        <div class="step-icon">
+                            <i class="bx bx-map-pin"></i>
+                        </div>
+                        <span>Location Details</span>
+                    </div>
+                    <div class="step" id="step3">
+                        <div class="step-icon">
+                            <i class="bx bx-calendar"></i>
+                        </div>
+                        <span>Schedule</span>
+                    </div>
+                    <div class="step" id="step4">
+                        <div class="step-icon">
+                            <i class="bx bx-check-circle"></i>
+                        </div>
+                        <span>Confirm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Multi-step Booking Form -->
+                <div class="booking-container">
+                    <form id="bookingForm" onsubmit="bookService(event)">
+                        <!-- Step 1: Service Selection -->
+                        <div class="booking-step active" id="serviceStep">
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <div class="service-option" data-service="carWashing">
+                                        <div class="service-icon">
+                                            <i class="bx bx-car-wash"></i>
+                                        </div>
+                                        <h4>Car Washing</h4>
+                                        <p>Professional washing and detailing service</p>
+                                        <ul class="service-features">
+                                            <li><i class="bx bx-check"></i> Exterior Wash</li>
+                                            <li><i class="bx bx-check"></i> Interior Cleaning</li>
+                                            <li><i class="bx bx-check"></i> Waxing Available</li>
+                                        </ul>
+                                        <div class="price-tag">From $30</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="service-option" data-service="carServicing">
+                                        <div class="service-icon">
+                                            <i class="bx bx-cog"></i>
+                                        </div>
+                                        <h4>Car Servicing</h4>
+                                        <p>Comprehensive maintenance service</p>
+                                        <ul class="service-features">
+                                            <li><i class="bx bx-check"></i> Oil Change</li>
+                                            <li><i class="bx bx-check"></i> Filter Replacement</li>
+                                            <li><i class="bx bx-check"></i> Safety Inspection</li>
+                                        </ul>
+                                        <div class="price-tag">From $100</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="service-option" data-service="carRepair">
+                                        <div class="service-icon">
+                                            <i class="bx bx-wrench"></i>
+                                        </div>
+                                        <h4>Car Repair</h4>
+                                        <p>Professional repair services</p>
+                                        <ul class="service-features">
+                                            <li><i class="bx bx-check"></i> Diagnostics</li>
+                                            <li><i class="bx bx-check"></i> Repair Service</li>
+                                            <li><i class="bx bx-check"></i> Parts Replacement</li>
+                                        </ul>
+                                        <div class="price-tag">From $80</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Location Details -->
+                        <div class="booking-step" id="locationStep">
+                            <h4 class="mb-4">Your Location Details</h4>
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Community Block/Tower</label>
+                                        <input type="text" class="form-control" id="communityBlock" 
+                                            placeholder="Enter your block or tower number" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Apartment/Unit Number</label>
+                                        <input type="text" class="form-control" id="unitNumber" 
+                                            placeholder="Enter your apartment number" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Parking Number</label>
+                                        <input type="text" class="form-control" id="parkingNumber" 
+                                            placeholder="Enter your parking spot number" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Vehicle Details</label>
+                                        <input type="text" class="form-control" id="vehicleDetails" 
+                                            placeholder="Vehicle make, model, and registration number" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Schedule -->
+                        <div class="booking-step" id="scheduleStep">
+                            <h4 class="mb-4">Choose Your Preferred Time</h4>
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Select Date</label>
+                                        <input type="date" class="form-control" id="serviceDate" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Select Time Slot</label>
+                                        <select class="form-control" id="serviceTime" required>
+                                            <option value="">Choose your preferred time</option>
+                                            <optgroup label="Morning">
+                                                <option value="09:00">9:00 AM</option>
+                                                <option value="10:00">10:00 AM</option>
+                                                <option value="11:00">11:00 AM</option>
+                                            </optgroup>
+                                            <optgroup label="Afternoon">
+                                                <option value="14:00">2:00 PM</option>
+                                                <option value="15:00">3:00 PM</option>
+                                                <option value="16:00">4:00 PM</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Special Instructions</label>
+                                        <textarea class="form-control" id="specialInstructions" rows="3" 
+                                            placeholder="Any specific requirements or issues to note"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Confirmation -->
+                        <div class="booking-step" id="confirmStep">
+                            <h4 class="mb-4">Confirm Your Booking</h4>
+                            <div class="booking-summary">
+                                <div class="summary-item">
+                                    <span class="label">Service Type:</span>
+                                    <span class="value" id="summaryService"></span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="label">Location:</span>
+                                    <span class="value" id="summaryLocation"></span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="label">Schedule:</span>
+                                    <span class="value" id="summarySchedule"></span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="label">Vehicle:</span>
+                                    <span class="value" id="summaryVehicle"></span>
+                                </div>
+                                <div class="price-summary">
+                                    <h5>Price Breakdown</h5>
+                                    <div class="price-item">
+                                        <span>Base Price:</span>
+                                        <span id="basePrice">$0</span>
+                                    </div>
+                                    <div class="price-item total">
+                                        <span>Total:</span>
+                                        <span id="totalPrice">$0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Navigation -->
+                        <div class="form-navigation mt-4">
+                            <button type="button" class="btn btn-secondary" id="prevBtn" onclick="prevStep()">Previous</button>
+                            <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextStep()">Next</button>
+                            <button type="submit" class="btn btn-success" id="submitBtn" style="display: none;">Confirm Booking</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Booking Tips -->
+                <div class="booking-tips mt-4">
+                    <h5><i class="bx bx-info-circle"></i> Booking Tips</h5>
+                    <ul>
+                        <li>Book at least 24 hours in advance for better slot availability</li>
+                        <li>Keep your vehicle registration and parking details handy</li>
+                        <li>Make sure your parking spot is accessible during the service time</li>
+                        <li>For emergency repairs, please contact our hotline</li>
+                    </ul>
+                </div>
+                                    <textarea class="form-control" id="requirements" rows="3" 
+                                        placeholder="Describe any specific issues or requirements"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Schedule -->
+                            <div class="booking-step d-none" id="scheduleStep">
+                                <h4 class="mb-4">Choose Your Schedule</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Preferred Date</label>
+                                            <input type="text" class="form-control flatpickr" id="serviceDate" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Available Time Slots</label>
+                                            <div class="time-slots" id="timeSlots">
+                                                <!-- Time slots will be generated here -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <div class="alert alert-info">
+                                        <i class="bx bx-info-circle me-2"></i>
+                                        Selected time slots are subject to provider confirmation.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 4: Confirmation -->
+                            <div class="booking-step d-none" id="confirmationStep">
+                                <h4 class="mb-4">Review and Confirm</h4>
+                                <div class="booking-summary p-4 bg-light rounded">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6>Selected Vehicle</h6>
+                                            <p id="summaryVehicle"></p>
+                                            
+                                            <h6 class="mt-3">Service Details</h6>
+                                            <p id="summaryService"></p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6>Schedule</h6>
+                                            <p id="summarySchedule"></p>
+                                            
+                                            <h6 class="mt-3">Estimated Price</h6>
+                                            <p class="text-primary fw-bold" id="summaryPrice"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-check mt-4">
+                                    <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                                    <label class="form-check-label" for="termsCheck">
+                                        I agree to the terms and conditions
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Navigation Buttons -->
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-outline-primary" id="prevBtn" onclick="previousStep()" style="display: none;">
+                                    <i class="bx bx-chevron-left"></i> Previous
+                                </button>
+                                <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextStep()">
+                                    Next <i class="bx bx-chevron-right"></i>
+                                </button>
+                                <button type="submit" class="btn btn-success" id="submitBtn" style="display: none;">
+                                    Confirm Booking <i class="bx bx-check"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-3">
+                <!-- Estimated Price Card -->
+                <div class="dashboard-card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Estimated Price</h5>
+                        <div class="price-breakdown">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Base Service</span>
+                                <span id="basePrice">$0.00</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Additional Services</span>
+                                <span id="additionalPrice">$0.00</span>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between fw-bold">
+                                <span>Total Estimate</span>
+                                <span class="text-primary" id="totalPrice">$0.00</span>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <small class="text-muted">
+                                * Final price may vary based on actual service requirements
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Provider Info -->
+                <div class="dashboard-card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Service Provider</h5>
+                        <div id="providerInfo" class="text-center">
+                            <div class="provider-avatar mb-3">
+                                <img src="https://ui-avatars.com/api/?name=Auto+Care&background=2563eb&color=fff" 
+                                     class="rounded-circle" style="width: 80px; height: 80px;">
+                            </div>
+                            <h6 class="mb-1">AutoCare Service Center</h6>
+                            <p class="text-muted mb-2">Premium Service Provider</p>
+                            <div class="rating mb-2">
+                                <i class="bx bxs-star text-warning"></i>
+                                <i class="bx bxs-star text-warning"></i>
+                                <i class="bx bxs-star text-warning"></i>
+                                <i class="bx bxs-star text-warning"></i>
+                                <i class="bx bxs-star-half text-warning"></i>
+                                <span class="ms-1">4.5/5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Hours -->
+                <div class="dashboard-card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Service Hours</h5>
+                        <ul class="list-unstyled service-hours">
+                            <li class="d-flex justify-content-between">
+                                <span>Monday - Friday</span>
+                                <span>9:00 AM - 6:00 PM</span>
+                            </li>
+                            <li class="d-flex justify-content-between">
+                                <span>Saturday</span>
+                                <span>10:00 AM - 4:00 PM</span>
+                            </li>
+                            <li class="d-flex justify-content-between">
+                                <span>Sunday</span>
+                                <span class="text-danger">Closed</span>
+                            </li>
+                        </ul>
+                        <div class="mt-3">
+                            <div class="alert alert-warning mb-0">
+                                <i class="bx bx-time me-2"></i>
+                                Emergency services available 24/7
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Need Help? -->
+                <div class="dashboard-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Need Help?</h5>
+                        <p class="mb-3">Our support team is here to assist you</p>
+                        <div class="d-grid gap-2">
+                            <a href="#" class="btn btn-outline-primary">
+                                <i class="bx bx-conversation me-2"></i>
+                                Live Chat
+                            </a>
+                            <a href="tel:+1234567890" class="btn btn-outline-primary">
+                                <i class="bx bx-phone me-2"></i>
+                                Call Support
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Vehicle Modal -->
+    <div class="modal fade" id="addVehicleModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Vehicle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add vehicle form content -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/booking.js"></script>
+    <script>
+        // Load components
+        document.addEventListener('DOMContentLoaded', function() {
+            loadComponent('header-placeholder', '/components/header.html');
+            loadComponent('footer-placeholder', '/components/footer.html');
+            
+            // Check authentication
+            const auth = checkAuth();
+            if (auth.userType !== 'resident') {
+                window.location.href = '/index.html';
+            }
+
+            // Set minimum date and time
+            setMinDateTime();
+        });
+    </script>
+</body>
+</html>

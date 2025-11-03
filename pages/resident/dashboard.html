@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resident Dashboard - AutoEase</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/chart.js" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="container-fluid mt-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 d-none d-lg-block">
+                <div class="dashboard-sidebar p-3 bg-white rounded-3 shadow-sm">
+                    <div class="user-profile text-center mb-4">
+                        <div class="avatar-container mb-3">
+                            <img src="https://ui-avatars.com/api/?name=User&background=2563eb&color=fff" 
+                                 class="rounded-circle" style="width: 80px; height: 80px;">
+                        </div>
+                        <h6 class="mb-1" id="userName">Welcome Back!</h6>
+                        <p class="text-muted small mb-0" id="userEmail"></p>
+                    </div>
+                    <div class="sidebar-menu">
+                        <a href="#dashboard" class="d-flex align-items-center p-2 rounded-3 text-decoration-none active">
+                            <i class="bx bxs-dashboard me-2"></i> Dashboard
+                        </a>
+                        <a href="#profile" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
+                            <i class="bx bxs-user-circle me-2"></i> Profile
+                        </a>
+                        <a href="#vehicles" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
+                            <i class="bx bxs-car me-2"></i> My Vehicles
+                        </a>
+                        <a href="#notifications" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
+                            <i class="bx bxs-bell me-2"></i> Notifications
+                            <span class="badge bg-danger ms-auto">3</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Dashboard Content -->
+            <div class="col-lg-10">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h1 class="h3 mb-0">My Dashboard</h1>
+                        <p class="text-muted mb-0">Welcome back to your AutoEase dashboard</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addVehicleModal">
+                            <i class="bx bx-plus"></i> Add Vehicle
+                        </button>
+                        <a href="book-service.html" class="btn btn-primary">
+                            <i class="bx bx-calendar-plus"></i> Book New Service
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="stat-card dashboard-card">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="text-white-50">Active Bookings</h6>
+                                    <h3 class="mb-0" id="activeBookingsCount">0</h3>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="bx bx-calendar-check fs-1"></i>
+                                </div>
+                            </div>
+                            <div class="progress mt-3" style="height: 4px;">
+                                <div class="progress-bar" style="width: 65%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card dashboard-card" style="background: linear-gradient(135deg, #22c55e, #16a34a)">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="text-white-50">Completed Services</h6>
+                                    <h3 class="mb-0" id="completedServicesCount">0</h3>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="bx bx-check-circle fs-1"></i>
+                                </div>
+                            </div>
+                            <div class="progress mt-3" style="height: 4px;">
+                                <div class="progress-bar" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card dashboard-card" style="background: linear-gradient(135deg, #f59e0b, #d97706)">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="text-white-50">Total Vehicles</h6>
+                                    <h3 class="mb-0" id="totalVehiclesCount">0</h3>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="bx bx-car fs-1"></i>
+                                </div>
+                            </div>
+                            <div class="progress mt-3" style="height: 4px;">
+                                <div class="progress-bar" style="width: 45%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card dashboard-card" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9)">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="text-white-50">Total Spent</h6>
+                                    <h3 class="mb-0" id="totalSpentAmount">$0</h3>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="bx bx-dollar-circle fs-1"></i>
+                                </div>
+                            </div>
+                            <div class="progress mt-3" style="height: 4px;">
+                                <div class="progress-bar" style="width: 60%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service History Chart -->
+                <div class="row mb-4">
+                    <div class="col-md-8">
+                        <div class="dashboard-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Service History Overview</h5>
+                                <canvas id="serviceHistoryChart" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="dashboard-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Upcoming Services</h5>
+                                <div class="timeline" id="upcomingServices">
+                                    <!-- Timeline items will be added here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Bookings -->
+                <div class="dashboard-card mb-4">
+                    <div class="card-header border-0 bg-transparent">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Active Bookings</h5>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="filterBookings('all')">All</button>
+                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="filterBookings('pending')">Pending</button>
+                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="filterBookings('confirmed')">Confirmed</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="activeBookings" class="table-responsive">
+                            <!-- Active bookings will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehicles Section -->
+                <div class="dashboard-card">
+                    <div class="card-header border-0 bg-transparent">
+                        <h5 class="mb-0">My Vehicles</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3" id="vehiclesGrid">
+                            <!-- Vehicle cards will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Vehicle Modal -->
+    <div class="modal fade" id="addVehicleModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Vehicle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addVehicleForm" onsubmit="addVehicle(event)">
+                        <div class="mb-3">
+                            <label class="form-label">Vehicle Type</label>
+                            <select class="form-select" required>
+                                <option value="">Select type</option>
+                                <option value="car">Car</option>
+                                <option value="suv">SUV</option>
+                                <option value="truck">Truck</option>
+                                <option value="motorcycle">Motorcycle</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Make</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Model</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Year</label>
+                            <input type="number" class="form-control" required min="1900" max="2025">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">License Plate</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Add Vehicle</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast Container -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
+        <div id="notificationToast" class="toast" role="alert">
+            <div class="toast-header">
+                <i class="bx bx-bell me-2"></i>
+                <strong class="me-auto">Notification</strong>
+                <small class="text-muted">just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                <!-- Notification content will be added here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/booking.js"></script>
+    <script>
+        // Load components and initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadComponent('header-placeholder', '/components/header.html');
+            loadComponent('footer-placeholder', '/components/footer.html');
+            
+            // Check authentication
+            const auth = checkAuth();
+            if (auth.userType !== 'resident') {
+                window.location.href = '/index.html';
+            }
+
+            // Initialize user profile
+            document.getElementById('userEmail').textContent = auth.userEmail;
+            loadUserProfile();
+
+            // Load dashboard data
+            displayBookings('activeBookings', 'pending');
+            updateDashboardStats();
+            initializeServiceHistoryChart();
+            loadVehicles();
+            displayUpcomingServices();
+        });
+
+        // Initialize service history chart
+        function initializeServiceHistoryChart() {
+            const ctx = document.getElementById('serviceHistoryChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Service Requests',
+                        data: [5, 8, 6, 9, 7, 11],
+                        borderColor: '#2563eb',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Load user vehicles
+        function loadVehicles() {
+            const vehicles = JSON.parse(localStorage.getItem('vehicles')) || [];
+            const vehiclesGrid = document.getElementById('vehiclesGrid');
+            document.getElementById('totalVehiclesCount').textContent = vehicles.length;
+
+            if (vehicles.length === 0) {
+                vehiclesGrid.innerHTML = `
+                    <div class="col-12 text-center">
+                        <p class="text-muted">No vehicles added yet. Add your first vehicle!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            vehiclesGrid.innerHTML = vehicles.map(vehicle => `
+                <div class="col-md-4">
+                    <div class="dashboard-card h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="bx bxs-car fs-1 me-3 text-primary"></i>
+                                <div>
+                                    <h6 class="mb-1">${vehicle.make} ${vehicle.model}</h6>
+                                    <p class="text-muted mb-0">${vehicle.year} • ${vehicle.licensePlate}</p>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-success">Active</span>
+                                <button class="btn btn-sm btn-outline-primary" onclick="scheduleService('${vehicle.id}')">
+                                    Schedule Service
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Add new vehicle
+        function addVehicle(event) {
+            event.preventDefault();
+            const form = event.target;
+            const vehicle = {
+                id: Date.now(),
+                type: form.querySelector('select').value,
+                make: form.querySelector('input[type="text"]').value,
+                model: form.querySelector('input[type="text"]:nth-of-type(1)').value,
+                year: form.querySelector('input[type="number"]').value,
+                licensePlate: form.querySelector('input[type="text"]:nth-of-type(2)').value
+            };
+
+            let vehicles = JSON.parse(localStorage.getItem('vehicles')) || [];
+            vehicles.push(vehicle);
+            localStorage.setItem('vehicles', JSON.stringify(vehicles));
+
+            // Show success notification
+            showNotification('Vehicle added successfully!');
+            
+            // Reset form and close modal
+            form.reset();
+            bootstrap.Modal.getInstance(document.getElementById('addVehicleModal')).hide();
+            
+            // Reload vehicles grid
+            loadVehicles();
+        }
+
+        // Display upcoming services in timeline
+        function displayUpcomingServices() {
+            const upcomingServices = document.getElementById('upcomingServices');
+            const bookings = getBookings().filter(b => b.status === 'confirmed')
+                .sort((a, b) => new Date(a.serviceDate) - new Date(b.serviceDate))
+                .slice(0, 3);
+
+            if (bookings.length === 0) {
+                upcomingServices.innerHTML = '<p class="text-muted">No upcoming services scheduled.</p>';
+                return;
+            }
+
+            upcomingServices.innerHTML = bookings.map(booking => `
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h6 class="mb-1">${booking.serviceType}</h6>
+                        <p class="text-muted mb-0">
+                            ${new Date(booking.serviceDate).toLocaleDateString()} at ${booking.serviceTime}
+                        </p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Show notification toast
+        function showNotification(message) {
+            const toast = new bootstrap.Toast(document.getElementById('notificationToast'));
+            document.querySelector('#notificationToast .toast-body').textContent = message;
+            toast.show();
+        }
+
+        // Schedule service for a vehicle
+        function scheduleService(vehicleId) {
+            window.location.href = `book-service.html?vehicleId=${vehicleId}`;
+        }
+
+        // Filter bookings
+        function filterBookings(status) {
+            displayBookings('activeBookings', status === 'all' ? null : status);
+        }
+
+        // Update dashboard statistics
+        function updateDashboardStats() {
+            const bookings = getBookings();
+            const active = bookings.filter(b => b.status === 'pending' || b.status === 'confirmed').length;
+            const completed = bookings.filter(b => b.status === 'completed').length;
+            
+            document.getElementById('activeBookingsCount').textContent = active;
+            document.getElementById('completedServicesCount').textContent = completed;
+            
+            // Calculate total spent (mock data)
+            const totalSpent = completed * 150; // Average $150 per service
+            document.getElementById('totalSpentAmount').textContent = formatCurrency(totalSpent);
+        }
+
+        // Load user profile
+        function loadUserProfile() {
+            const userProfile = JSON.parse(localStorage.getItem('userProfile')) || {};
+            if (userProfile.name) {
+                document.getElementById('userName').textContent = `Welcome back, ${userProfile.name}!`;
+            }
+        }
+    </script>
+</body>
+</html>

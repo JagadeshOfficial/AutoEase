@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Simple SVG illustration as a local fallback hero image for car wash -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0%" stop-color="#e6f2ff"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#g)"/>
+  <!-- stylized car -->
+  <g transform="translate(200,280) scale(1.2)">
+    <rect x="200" y="120" width="700" height="180" rx="40" fill="#1e3a8a"/>
+    <rect x="300" y="60" width="500" height="120" rx="40" fill="#2563eb"/>
+    <circle cx="420" cy="330" r="60" fill="#0f172a"/>
+    <circle cx="780" cy="330" r="60" fill="#0f172a"/>
+    <circle cx="420" cy="330" r="30" fill="#94a3b8"/>
+    <circle cx="780" cy="330" r="30" fill="#94a3b8"/>
+  </g>
+  <!-- water drops -->
+  <g fill="#60a5fa" opacity="0.9">
+    <path d="M1200 90c0 30-20 50-20 50s-20-20-20-50 20-50 20-50 20 20 20 50z"/>
+    <path d="M1320 60c0 20-14 34-14 34s-14-14-14-34 14-34 14-34 14 14 14 34z"/>
+    <path d="M1450 120c0 25-18 42-18 42s-18-17-18-42 18-42 18-42 18 17 18 42z"/>
+  </g>
+  <!-- headline text -->
+  <text x="120" y="140" font-family="Segoe UI, Roboto, Arial" font-size="44" fill="#0f172a">Car Wash & Detailing</text>
+  <text x="120" y="190" font-family="Segoe UI, Roboto, Arial" font-size="22" fill="#334155">Professional on-site cleaning and premium detailing services</text>
+</svg>
