@@ -239,17 +239,30 @@
             loadComponents();
         });
 
-        // Handle login modal
-        function showLoginModal(redirectAfterLogin = false) {
-            var loginModal = document.getElementById('loginModal');
-            if (loginModal) {
-                // Store redirect info if needed
-                if (redirectAfterLogin) {
-                    sessionStorage.setItem('redirectAfterLogin', '/pages/resident/dashboard.html');
+        // Handle login modal - delegate to auth.js's showLoginModal while preserving redirect flag
+        (function() {
+            // Capture existing showLoginModal from auth.js (if loaded)
+            const authShowLogin = window.showLoginModal || function(userType = 'resident') {
+                const loginModal = document.getElementById('loginModal');
+                if (loginModal) new bootstrap.Modal(loginModal).show();
+            };
+
+            // Export a delegating function that supports both
+            // - showLoginModal('admin'|'provider'|'resident') to open with prefill
+            // - showLoginModal(true) from book flow to set redirect and open resident modal
+            window.showLoginModal = function(arg = false) {
+                if (typeof arg === 'string') {
+                    // userType passed
+                    authShowLogin(arg);
+                } else {
+                    // arg is boolean (redirectAfterLogin)
+                    if (arg) {
+                        sessionStorage.setItem('redirectAfterLogin', '/pages/resident/dashboard.html');
+                    }
+                    authShowLogin('resident');
                 }
-                new bootstrap.Modal(loginModal).show();
-            }
-        }
+            };
+        })();
 
         // Handle book service button click
         function handleBookService(event) {

@@ -60,18 +60,6 @@ function showRegisterModal(userType = 'resident') {
     modal.show();
 }
 
-function showLoginModal(userType) {
-    const modal = new bootstrap.Modal(document.getElementById('loginModal'));
-    document.getElementById('userType').value = userType;
-    
-    // Pre-fill credentials for demo
-    if (userType === 'admin') {
-        document.getElementById('loginEmail').value = DEMO_ACCOUNTS.admin.email;
-        document.getElementById('loginPassword').value = DEMO_ACCOUNTS.admin.password;
-    }
-    
-    modal.show();
-}
 
 function login(event) {
     event.preventDefault();
@@ -97,12 +85,17 @@ function login(event) {
         const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
         if (loginModal) loginModal.hide();
         
-        // Check for redirect
+        // Check for redirect (only honor when the user is a resident)
         const redirectUrl = sessionStorage.getItem('redirectAfterLogin');
         if (redirectUrl) {
+            // Remove stored redirect regardless so it doesn't persist incorrectly
             sessionStorage.removeItem('redirectAfterLogin');
-            window.location.href = redirectUrl;
-            return;
+            // Only redirect to the saved URL if the logged-in user is a resident
+            if (userType === 'resident') {
+                window.location.href = redirectUrl;
+                return;
+            }
+            // otherwise continue to role-based dashboard below
         }
         
         // Default redirects

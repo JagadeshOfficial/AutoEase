@@ -48,7 +48,7 @@
                                 <li><a class="dropdown-item" href="#"><i class="bx bx-user me-2"></i>Profile</a></li>
                                 <li><a class="dropdown-item" href="#"><i class="bx bx-cog me-2"></i>Settings</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-danger" href="#"><i class="bx bx-log-out me-2"></i>Logout</a></li>
+                                <li><a class="dropdown-item text-danger" href="#" onclick="logout()"><i class="bx bx-log-out me-2"></i>Logout</a></li>
                             </ul>
                         </div>
                     </div>
@@ -82,6 +82,12 @@
                         <a href="#providers" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
                             <i class="bx bxs-car-mechanic me-2"></i> Providers
                         </a>
+                        <a href="#bookings" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
+                            <i class="bx bxs-calendar-event me-2"></i> Bookings
+                        </a>
+                        <a href="#messages" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
+                            <i class="bx bxs-envelope me-2"></i> Messages
+                        </a>
                         <a href="#services" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
                             <i class="bx bxs-cog me-2"></i> Services
                         </a>
@@ -97,7 +103,9 @@
 
             <!-- Main Dashboard Content -->
             <div class="col-lg-10">
-                <div class="d-flex justify-content-between align-items-center mb-4">
+                <!-- Sections: dashboard, users, providers, services, reports, settings -->
+                <div id="dashboard" class="admin-section">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
                         <h1 class="h3 mb-0">Admin Dashboard</h1>
                         <p class="text-muted mb-0">System Overview and Analytics</p>
@@ -116,6 +124,193 @@
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#generateReportModal">
                             <i class="bx bx-plus"></i> Generate Report
                         </button>
+                    </div>
+                </div>
+
+                <div id="users" class="admin-section" style="display:none;">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h1 class="h3 mb-0">Users</h1>
+                            <p class="text-muted mb-0">Manage application users</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="dashboard-card">
+                                <div class="card-header border-0 bg-transparent">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">Recent Users</h5>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover" id="usersTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>User</th>
+                                                    <th>Type</th>
+                                                    <th>Joined</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="recentUsersList">
+                                                <!-- Users will be loaded here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="providers" class="admin-section" style="display:none;">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h1 class="h3 mb-0">Providers</h1>
+                            <p class="text-muted mb-0">Manage service providers</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="dashboard-card">
+                                <div class="card-header border-0 bg-transparent">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">Active Providers</h5>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover" id="providersTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Provider</th>
+                                                    <th>Services</th>
+                                                    <th>Rating</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="activeProvidersList">
+                                                <!-- Providers will be loaded here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="bookings" class="admin-section" style="display:none;">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h1 class="h3 mb-0">Bookings</h1>
+                            <p class="text-muted mb-0">Manage all bookings and appointments</p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-secondary" id="filterAllBookings">All</button>
+                            <button class="btn btn-outline-primary" id="filterPendingBookings">Pending</button>
+                            <button class="btn btn-outline-success" id="filterConfirmedBookings">Confirmed</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="dashboard-card">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover" id="bookingsTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Booking ID</th>
+                                                    <th>User</th>
+                                                    <th>Provider</th>
+                                                    <th>Service</th>
+                                                    <th>Date</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="bookingsList">
+                                                <!-- Bookings will be loaded here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="messages" class="admin-section" style="display:none;">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h1 class="h3 mb-0">Messages</h1>
+                            <p class="text-muted mb-0">User & provider messages</p>
+                        </div>
+                        <div>
+                            <button class="btn btn-outline-primary" id="composeMessageBtn">Compose</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="dashboard-card p-3">
+                                <div id="messagesList">
+                                    <!-- Messages will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="services" class="admin-section" style="display:none;">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h1 class="h3 mb-0">Services</h1>
+                            <p class="text-muted mb-0">Manage service types and pricing</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="dashboard-card p-4">
+                                <p class="mb-0">Service configuration UI will appear here. (Placeholder)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="reports" class="admin-section" style="display:none;">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h1 class="h3 mb-0">Reports</h1>
+                            <p class="text-muted mb-0">Generate and export reports</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="dashboard-card p-4">
+                                <p class="mb-0">Reporting tools will appear here. (Placeholder)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="settings" class="admin-section" style="display:none;">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h1 class="h3 mb-0">Settings</h1>
+                            <p class="text-muted mb-0">Application and account settings</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="dashboard-card p-4">
+                                <p class="mb-0">Settings UI will appear here. (Placeholder)</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -228,65 +423,7 @@
                     </div>
                 </div>
 
-                <!-- Users and Providers Tables -->
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <div class="dashboard-card">
-                            <div class="card-header border-0 bg-transparent">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h5 class="mb-0">Recent Users</h5>
-                                    <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-hover" id="usersTable">
-                                        <thead>
-                                            <tr>
-                                                <th>User</th>
-                                                <th>Type</th>
-                                                <th>Joined</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="recentUsersList">
-                                            <!-- Users will be loaded here -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="dashboard-card">
-                            <div class="card-header border-0 bg-transparent">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h5 class="mb-0">Active Providers</h5>
-                                    <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-hover" id="providersTable">
-                                        <thead>
-                                            <tr>
-                                                <th>Provider</th>
-                                                <th>Services</th>
-                                                <th>Rating</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="activeProvidersList">
-                                            <!-- Providers will be loaded here -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
 
                 <!-- System Health and Recent Activity -->
                 <div class="row">
@@ -407,11 +544,125 @@
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="../../assets/js/admin-dashboard.js"></script>
     <script>
-        // Check authentication
+        // Check authentication and populate admin info
         document.addEventListener('DOMContentLoaded', function() {
             const auth = checkAuth();
             if (auth.userType !== 'admin') {
                 window.location.href = '/index.html';
+                return;
+            }
+
+            // Populate admin email/display where present
+            try {
+                const adminEmailEl = document.getElementById('adminEmail');
+                if (adminEmailEl) adminEmailEl.textContent = auth.userEmail || '';
+            } catch (e) {
+                // ignore
+            }
+        });
+    </script>
+    <script>
+        // Sidebar navigation: toggle sections
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+            const mainCol = document.querySelector('.col-lg-10');
+            let lastActiveSection = null;
+
+            async function initializeDataTables() {
+                if (!window.jQuery || !window.jQuery.fn || !window.jQuery.fn.dataTable) return;
+                
+                const $ = window.jQuery;
+                const tables = ['#usersTable', '#providersTable', '#bookingsTable'];
+                
+                for (const tableId of tables) {
+                    try {
+                        if ($.fn.dataTable.isDataTable(tableId)) {
+                            $(tableId).DataTable().destroy();
+                        }
+                        if ($(tableId).length) {
+                            $(tableId).DataTable({
+                                pageLength: 5,
+                                lengthChange: false,
+                                searching: false,
+                                info: false
+                            });
+                        }
+                    } catch (e) {
+                        console.error(`Error initializing DataTable ${tableId}:`, e);
+                    }
+                }
+            }
+
+            async function showSection(id) {
+                if (!mainCol || id === lastActiveSection) return;
+                lastActiveSection = id;
+
+                // Update active class on sidebar
+                sidebarLinks.forEach(link => {
+                    const href = link.getAttribute('href') || '';
+                    link.classList.toggle('active', href === '#' + id);
+                });
+
+                // Show/hide admin-section blocks
+                const sections = document.querySelectorAll('.admin-section');
+                sections.forEach(s => {
+                    if (s.id === id) {
+                        s.style.display = '';
+                        s.classList.add('fade-in');
+                    } else {
+                        s.style.display = 'none';
+                        s.classList.remove('fade-in');
+                    }
+                });
+
+                // Toggle other main content (dashboard-only)
+                Array.from(mainCol.children).forEach(child => {
+                    if (child.classList && child.classList.contains('admin-section')) return;
+                    child.style.display = (id === 'dashboard') ? '' : 'none';
+                });
+
+                try {
+                    // Load data first
+                    if (typeof loadMockData === 'function') {
+                        await Promise.resolve(loadMockData());
+                    }
+                    // Then initialize tables
+                    await initializeDataTables();
+                    // Update URL hash last
+                    window.location.hash = id;
+                } catch (e) {
+                    console.error('Error during section initialization:', e);
+                }
+            }
+
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    const target = (this.getAttribute('href') || '').replace('#', '');
+                    if (!target) return;
+                    await showSection(target);
+                });
+            });
+
+            // Add fade transition style
+            const style = document.createElement('style');
+            style.textContent = `
+                .admin-section {
+                    opacity: 0;
+                    transition: opacity 0.2s ease-in-out;
+                }
+                .admin-section.fade-in {
+                    opacity: 1;
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Start on section based on URL hash (if valid), otherwise dashboard
+            const initialHash = (window.location.hash || '').replace('#', '');
+            if (initialHash && document.getElementById(initialHash)) {
+                showSection(initialHash);
+            } else {
+                showSection('dashboard');
             }
         });
     </script>
