@@ -33,12 +33,12 @@
                         </div>
                     </div>
                     <div class="col-lg-6 text-center">
-                    <!-- Hero photo from Pexels (car wash). Falls back to local SVG/raster if external load fails. -->
-                    <img src="https://images.pexels.com/photos/3812459/pexels-photo-3812459.jpeg"
+                    <!-- Local hero photo (uploaded by you). Falls back to local SVG if the raster fails. -->
+                    <img src="assets/images/index.jpg"
                         alt="Car wash and detailing service"
                         class="hero-image img-fluid"
                         loading="lazy"
-                        srcset="https://images.pexels.com/photos/3812459/pexels-photo-3812459.jpeg 1200w, https://images.pexels.com/photos/3812459/pexels-photo-3812459.jpeg?auto=compress&cs=tinysrgb&dpr=1&h=450 800w"
+                        srcset="assets/images/index.jpg 1200w, assets/images/index.jpg 800w"
                         sizes="(max-width: 768px) 100vw, 50vw"
                         onerror="this.onerror=null;this.src='assets/images/hero-car-wash.svg';">
                     </div>
@@ -55,7 +55,7 @@
                         <div class="card service-card h-100 border-0 shadow-sm">
                             <div class="card-body p-4 text-center">
                                 <div class="service-icon mb-4">
-                                    <i class='bx bx-car-wash display-5 text-primary'></i>
+                                 <img src="assets/images/Car-washing.jpg" alt="Car washing" class="service-img img-fluid">
                                 </div>
                                 <h3 class="h4 mb-3">Car Washing</h3>
                                 <p class="text-secondary mb-4">Professional car washing and detailing service right at your doorstep.</p>
@@ -67,7 +67,7 @@
                         <div class="card service-card h-100 border-0 shadow-sm">
                             <div class="card-body p-4 text-center">
                                 <div class="service-icon mb-4">
-                                    <i class='bx bx-cog display-5 text-primary'></i>
+                                 <img src="assets/images/Car-service.jpg" alt="Car servicing" class="service-img img-fluid">
                                 </div>
                                 <h3 class="h4 mb-3">Car Servicing</h3>
                                 <p class="text-secondary mb-4">Regular maintenance and servicing to keep your vehicle running smoothly.</p>
@@ -79,11 +79,11 @@
                         <div class="card service-card h-100 border-0 shadow-sm">
                             <div class="card-body p-4 text-center">
                                 <div class="service-icon mb-4">
-                                    <i class='bx bx-wrench display-5 text-primary'></i>
+                                 <img src="assets/images/Car-repairing.jpg" alt="Car repairs" class="service-img img-fluid">
                                 </div>
                                 <h3 class="h4 mb-3">Car Repairs</h3>
-                                <p class="text-secondary mb-4">Expert repair services for all makes and models at your location.</p>
-                                <a href="/pages/resident/book-service.html" class="btn btn-outline-primary">Get Quote</a>
+                                <p class="text-secondary mb-2">Expert repair services for all makes and models at your location.</p>
+                                <a href="/pages/resident/book-service.html" class="btn btn-outline-primary">Request Repair</a>
                             </div>
                         </div>
                     </div>
@@ -97,40 +97,40 @@
                 <h2 class="text-center mb-5">Why Choose Us</h2>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="feature-item">
+                        <div class="feature-item feature-block">
                             <div class="feature-icon">
-                                <i class='bx bx-map'></i>
+                                <i class='bx bxs-map' title="On-site"></i>
                             </div>
-                            <div>
+                            <div class="feature-content">
                                 <h4>On-site Service</h4>
                                 <p>We come to your location within the community</p>
                             </div>
                         </div>
-                        <div class="feature-item">
+                        <div class="feature-item feature-block">
                             <div class="feature-icon">
-                                <i class='bx bx-time'></i>
+                                <i class='bx bxs-time' title="Flexible scheduling"></i>
                             </div>
-                            <div>
+                            <div class="feature-content">
                                 <h4>Flexible Scheduling</h4>
                                 <p>Book services at your convenient time</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="feature-item">
+                        <div class="feature-item feature-block">
                             <div class="feature-icon">
-                                <i class='bx bx-check-shield'></i>
+                                <i class='bx bxs-shield-check' title="Certified technicians"></i>
                             </div>
-                            <div>
+                            <div class="feature-content">
                                 <h4>Certified Technicians</h4>
                                 <p>Experienced and professional staff</p>
                             </div>
                         </div>
-                        <div class="feature-item">
+                        <div class="feature-item feature-block">
                             <div class="feature-icon">
-                                <i class='bx bx-badge'></i>
+                                <i class='bx bxs-award' title="Quality guarantee"></i>
                             </div>
-                            <div>
+                            <div class="feature-content">
                                 <h4>Quality Guarantee</h4>
                                 <p>100% satisfaction guaranteed</p>
                             </div>
@@ -144,25 +144,66 @@
     <!-- Footer -->
     <footer id="footer-placeholder"></footer>
 
-    <!-- Modal Login -->
-    <div class="modal fade" id="loginModal" tabindex="-1">
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Login</h5>
+                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="loginForm">
+                    <form id="loginForm" onsubmit="login(event)">
+                        <input type="hidden" id="userType" name="userType" value="resident">
                         <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" required>
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" name="email" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Password</label>
-                            <input type="password" class="form-control" required>
+                            <label for="loginPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" name="password" required>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Login</button>
+                        <div class="mt-3 text-center">
+                            <small class="text-muted">Demo accounts available in dropdown menu.</small>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">Register</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="registerForm" onsubmit="register(event)">
+                        <input type="hidden" id="registerUserType" name="userType" value="resident">
+                        <div class="mb-3">
+                            <label for="registerName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="registerName" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="registerEmail" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="registerPassword" name="password" required
+                                minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+                                title="Must contain number, uppercase and lowercase letter">
+                            <div class="form-text">Password must be at least 6 characters with numbers and letters.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Register</button>
                     </form>
                 </div>
             </div>

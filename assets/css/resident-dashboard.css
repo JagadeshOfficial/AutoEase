@@ -1,0 +1,274 @@
+/* Dashboard Layout */
+.dashboard-container {
+    padding: 20px;
+    background-color: #f8fafc;
+    min-height: 100vh;
+}
+
+/* Sidebar Styling */
+.dashboard-sidebar {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: calc(100vh - 100px);
+    position: sticky;
+    top: 20px;
+}
+
+.sidebar-menu a {
+    color: #64748b;
+    transition: all 0.3s ease;
+    margin-bottom: 8px;
+}
+
+.sidebar-menu a:hover {
+    background-color: #f1f5f9;
+    color: #2563eb;
+}
+
+.sidebar-menu a.active {
+    background-color: #2563eb;
+    color: #ffffff;
+}
+
+.user-profile .avatar-container img {
+    border: 3px solid #2563eb;
+    padding: 2px;
+}
+
+/* Dashboard Cards */
+.dashboard-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: none;
+    transition: transform 0.2s ease;
+    margin-bottom: 20px;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-card {
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+}
+
+.stat-card .stat-icon {
+    opacity: 0.8;
+}
+
+.stat-card .progress {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.stat-card .progress-bar {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Timeline */
+.timeline {
+    position: relative;
+    padding: 0;
+}
+
+.timeline-item {
+    position: relative;
+    padding: 20px 0;
+    padding-left: 30px;
+    border-left: 2px solid #e2e8f0;
+}
+
+.timeline-item:before {
+    content: '';
+    position: absolute;
+    left: -7px;
+    top: 24px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #2563eb;
+}
+
+.timeline-content {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+/* Vehicle Cards */
+.vehicle-card {
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.vehicle-card:hover {
+    transform: translateY(-5px);
+}
+
+.vehicle-stats {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.vehicle-stat-item {
+    flex: 1;
+    text-align: center;
+}
+
+/* Service History */
+.service-history-chart {
+    height: 300px;
+    margin: 20px 0;
+}
+
+/* Weather Widget */
+.weather-widget {
+    background: linear-gradient(135deg, #60a5fa, #3b82f6);
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.weather-info {
+    display: flex;
+    align-items: center;
+}
+
+.weather-icon {
+    font-size: 2.5rem;
+    margin-right: 15px;
+}
+
+/* Service Reminders */
+.reminder-card {
+    border-left: 4px solid #2563eb;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #f8fafc;
+    border-radius: 0 8px 8px 0;
+}
+
+/* Vehicle Health */
+.health-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.health-good { background-color: #22c55e; }
+.health-warning { background-color: #f59e0b; }
+.health-attention { background-color: #ef4444; }
+
+/* Quick Actions */
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.quick-action-btn {
+    padding: 15px;
+    border-radius: 12px;
+    background: #f8fafc;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.quick-action-btn:hover {
+    background: #2563eb;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-sidebar {
+        height: auto;
+        position: relative;
+        margin-bottom: 20px;
+    }
+    
+    .quick-actions {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.status-confirmed {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.status-completed {
+    background: #e0e7ff;
+    color: #4f46e5;
+}
+
+/* Toast Notifications */
+.toast {
+    background: #ffffff;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal Styling */
+.modal-content {
+    border: none;
+    border-radius: 12px;
+}
+
+.modal-header {
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+}

@@ -74,14 +74,36 @@ body {
 }
 
 .service-icon {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background-color: var(--bg-secondary);
+    width: 140px;
+    height: 140px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(99,102,241,0.06));
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1.5rem;
+    margin: 0 auto 1.5rem auto;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(16,24,40,0.06);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+}
+
+.service-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.45s ease;
+}
+
+/* Hover: lift the icon block and slightly zoom the image */
+.service-card:hover .service-icon {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 40px rgba(16,24,40,0.12);
+    background: linear-gradient(135deg, rgba(59,130,246,0.18), rgba(99,102,241,0.10));
+}
+
+.service-card:hover .service-img {
+    transform: scale(1.06);
 }
 
 .service-card:hover {
@@ -122,16 +144,48 @@ body {
     margin-bottom: 2rem;
 }
 
+/* Feature block appearance - used to make each feature a self-contained card */
+.feature-block {
+    background-color: #ffffff;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(16,24,40,0.06);
+    align-items: center;
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.feature-block .feature-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 12px;
+    margin: 0;
+    flex: 0 0 72px;
+}
+
+.feature-block .feature-content h4 {
+    margin-bottom: 0.25rem;
+}
+
+@media (max-width: 768px) {
+    .feature-block {
+        flex-direction: row;
+    }
+}
+
 .feature-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
     background-color: var(--primary-light);
     color: var(--primary-dark);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 2.25rem;
+    box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+    margin: 0 auto 1rem auto;
 }
 
 /* Booking Form Styles */

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Contact — AutoEase</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/header.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+  <meta name="description" content="Contact AutoEase — book a service, request support, or join our network of providers.">
+  <style>
+    /* Contact page specific styles - compact & modern */
+    .contact-hero {
+      background: linear-gradient(180deg, rgba(13,110,253,0.06), rgba(13,110,253,0.02));
+      padding: 3.5rem 0;
+    }
+    .contact-card {
+      border-radius: 14px;
+      box-shadow: 0 8px 30px rgba(13,24,40,0.06);
+      overflow: hidden;
+    }
+    .contact-info-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 1rem 0;
+      border-bottom: 1px dashed rgba(16,24,40,0.04);
+    }
+    .contact-info-item:last-child { border-bottom: none; }
+    .contact-info-icon {
+      width:48px; height:48px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, rgba(13,110,253,0.12), rgba(99,102,241,0.06)); color:var(--primary-color);
+      flex: 0 0 48px;
+    }
+    .contact-form .form-control:focus { box-shadow: none; border-color: var(--primary-color); }
+    .contact-map { border-radius: 12px; overflow:hidden; min-height:220px; }
+    @media (max-width: 767px) { .contact-hero { padding:2rem 0; } }
+  </style>
+</head>
+<body>
+  <!-- Header (inlined) -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white">
+      <div class="container">
+          <a class="navbar-brand d-flex align-items-center" href="/">
+              <i class='bx bxs-car text-primary me-2'></i>
+              <span class="text-primary fw-bold">AutoEase</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+              <ul class="navbar-nav align-items-center gap-3">
+                  <li class="nav-item">
+                      <a class="nav-link" href="/">Home</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/index.html#services">Services</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/pages/about.html">About</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active" href="/pages/contact.html">Contact</a>
+                  </li>
+                  <li class="nav-item dropdown ms-2">
+                      <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class='bx bx-user-circle me-1'></i>
+                          Account
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-end">
+                          <li><h6 class="dropdown-header">Login As</h6></li>
+                          <li><a class="dropdown-item" href="#" onclick="showLoginModal('resident')"><i class='bx bx-user me-2'></i>Resident Login</a></li>
+                          <li><a class="dropdown-item" href="#" onclick="showLoginModal('provider')"><i class='bx bxs-car-garage me-2'></i>Provider Login</a></li>
+                          <li><a class="dropdown-item" href="#" onclick="showLoginModal('admin')"><i class='bx bx-shield-quarter me-2'></i>Admin Login</a></li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li><h6 class="dropdown-header">Register</h6></li>
+                          <li><a class="dropdown-item" href="#" onclick="showRegisterModal('resident')"><i class='bx bx-user-plus me-2'></i>Register as Resident</a></li>
+                          <li><a class="dropdown-item" href="#" onclick="showRegisterModal('provider')"><i class='bx bx-store-alt me-2'></i>Join as Provider</a></li>
+                      </ul>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+
+  <main>
+    <!-- Hero -->
+    <section class="contact-hero">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <h1 class="display-5 fw-bold">Get in touch with AutoEase</h1>
+            <p class="lead text-secondary">Questions about booking, partnerships, or support? Send a message or call us — we usually reply within one business day.</p>
+            <div class="d-inline-flex gap-2">
+              <a href="#contact-form" class="btn btn-primary btn-lg">Message Us</a>
+              <a href="tel:+15551234567" class="btn btn-outline-primary btn-lg">Call +1 (555) 123-4567</a>
+            </div>
+          </div>
+          <div class="col-lg-6 text-center">
+            <img src="/assets/images/index.jpg" alt="AutoEase service" class="img-fluid rounded shadow" style="max-height:320px; object-fit:cover;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Content -->
+    <section class="py-5">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-5">
+            <div class="p-4 contact-card">
+              <h4>Contact Information</h4>
+              <p class="text-secondary">Reach out for bookings, support, or to join our provider network.</p>
+
+              <div class="mt-3">
+                <div class="contact-info-item">
+                  <div class="contact-info-icon" aria-hidden="true">
+                    <!-- Mail SVG -->
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8.5L12 13L21 8.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="3" y="6" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/></svg>
+                  </div>
+                  <div>
+                    <div class="fw-semibold">Email</div>
+                    <a href="mailto:support@autoease.example">support@autoease.example</a>
+                  </div>
+                </div>
+
+                <div class="contact-info-item">
+                  <div class="contact-info-icon">
+                    <!-- Phone SVG -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 3 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72c.12.99.36 1.96.72 2.88a2 2 0 0 1-.45 2.11L9.91 11.09a16 16 0 0 0 6 6l1.37-1.36a2 2 0 0 1 2.11-.45c.92.36 1.89.6 2.88.72A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div>
+                    <div class="fw-semibold">Phone</div>
+                    <a href="tel:+15551234567">+1 (555) 123-4567</a>
+                  </div>
+                </div>
+
+                <div class="contact-info-item">
+                  <div class="contact-info-icon">
+                    <!-- Map Pin SVG -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.4"/></svg>
+                  </div>
+                  <div>
+                    <div class="fw-semibold">Service Area</div>
+                    <div class="small text-muted">We serve gated communities across the city; contact your community manager to coordinate access.</div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="mt-4">
+                <a href="/pages/resident/book-service.html" class="btn btn-primary w-100">Book a Service</a>
+                <a href="/pages/about.html" class="btn btn-link w-100 mt-2">Learn more about AutoEase</a>
+              </div>
+            </div>
+
+            <div class="mt-4 contact-card p-3 small text-muted">
+              <strong>Office Hours:</strong> Mon–Fri, 8:00 AM – 6:00 PM<br>
+              <strong>Support:</strong> response within 1 business day
+            </div>
+
+          </div>
+
+          <div class="col-lg-7">
+            <div class="card contact-card p-4">
+              <h4 id="contact-form">Send us a message</h4>
+
+              <form id="contactPageForm" class="contact-form mt-3" novalidate>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="cname" class="form-label">Name</label>
+                    <input id="cname" name="name" type="text" class="form-control" required>
+                    <div class="invalid-feedback">Please provide your name.</div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="cemail" class="form-label">Email</label>
+                    <input id="cemail" name="email" type="email" class="form-control" required>
+                    <div class="invalid-feedback">Please provide a valid email.</div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="cphone" class="form-label">Phone (optional)</label>
+                    <input id="cphone" name="phone" type="tel" class="form-control">
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="csubject" class="form-label">Subject</label>
+                    <input id="csubject" name="subject" type="text" class="form-control">
+                  </div>
+
+                  <div class="col-12">
+                    <label for="cmessage" class="form-label">Message</label>
+                    <textarea id="cmessage" name="message" rows="6" class="form-control" required></textarea>
+                    <div class="invalid-feedback">Please enter a message.</div>
+                  </div>
+
+                  <div class="col-12 d-flex justify-content-between align-items-center">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="consentCheck" checked>
+                      <label class="form-check-label small" for="consentCheck">I agree to be contacted regarding my inquiry.</label>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Send Message</button>
+                  </div>
+
+                </div>
+              </form>
+
+              <div id="contactPageResult" class="mt-3" role="status" aria-live="polite" style="display:none;"></div>
+
+            </div>
+
+            <div class="mt-3">
+              <div class="contact-map">
+                <!-- Lightweight embedded map placeholder: replace with your map iframe if desired -->
+                <img src="/assets/images/Car-service.jpg" alt="Service area map placeholder" class="img-fluid w-100" style="min-height:220px; object-fit:cover;">
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer (inlined like About page) -->
+  <footer class="site-footer bg-dark text-light pt-5">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-4 mb-4">
+                  <h5 class="text-white">AutoEase</h5>
+                  <p class="small">Convenient car services for gated communities — maintenance, washing, repairs and more delivered to your doorstep.</p>
+                  <p class="small mb-0">© <span id="year-footer">2025</span> AutoEase. All rights reserved.</p>
+              </div>
+              <div class="col-md-2 mb-4">
+                  <h6 class="text-white">Quick Links</h6>
+                  <ul class="list-unstyled small">
+                      <li><a class="text-light" href="/">Home</a></li>
+                      <li><a class="text-light" href="/pages/about.html">About</a></li>
+                      <li><a class="text-light" href="/index.html#services">Services</a></li>
+                      <li><a class="text-light" href="/index.html#contact">Contact</a></li>
+                  </ul>
+              </div>
+              <div class="col-md-3 mb-4">
+                  <h6 class="text-white">Services</h6>
+                  <ul class="list-unstyled small">
+                      <li>Car Washing</li>
+                      <li>Car Servicing</li>
+                      <li>Car Repairs</li>
+                      <li>Pick & Drop</li>
+                  </ul>
+              </div>
+              <div class="col-md-3 mb-4">
+                  <h6 class="text-white">Contact</h6>
+                  <p class="small mb-1">support@autoease.example</p>
+                  <p class="small">+1 (555) 123-4567</p>
+              </div>
+          </div>
+          <div class="row mt-3">
+              <div class="col-12 text-center small">
+                  Built with ❤️ for gated communities.
+              </div>
+          </div>
+      </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/auth.js"></script>
+  <script>
+    // Contact page form handling (similar to the index handler). Change CONTACT_ENDPOINT to your API if available.
+    (function(){
+      const CONTACT_ENDPOINT = '';
+      const form = document.getElementById('contactPageForm');
+      const resultEl = document.getElementById('contactPageResult');
+      function showResult(message, isError=false){ resultEl.style.display='block'; resultEl.className = isError ? 'alert alert-danger' : 'alert alert-success'; resultEl.textContent = message; }
+      function clearResult(){ resultEl.style.display='none'; resultEl.textContent=''; resultEl.className=''; }
+      if (!form) return;
+      form.addEventListener('submit', async function(e){
+        e.preventDefault(); clearResult();
+        if (!form.checkValidity()) { form.classList.add('was-validated'); showResult('Please fill the required fields.', true); return; }
+        const data = Object.fromEntries(new FormData(form).entries());
+        if (CONTACT_ENDPOINT) {
+          try {
+            const res = await fetch(CONTACT_ENDPOINT, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
+            if (!res.ok) throw new Error('Server error');
+            showResult('Thanks — your message was sent. We will reply soon.'); form.reset(); form.classList.remove('was-validated');
+          } catch (err) { showResult('Failed to send message. Please try again later.', true); console.error(err); }
+          return;
+        }
+        // mailto fallback
+        try {
+          const subject = encodeURIComponent(data.subject || 'Contact from website');
+          const body = encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone || '-'}\n\n${data.message}`);
+          window.location.href = `mailto:support@autoease.example?subject=${subject}&body=${body}`;
+          showResult('Opening your mail client to send the message. If nothing opens, please email support@autoease.example.');
+          form.reset();
+        } catch (err) { showResult('Unable to open mail client. Please email support@autoease.example directly.', true); console.error(err); }
+      });
+    })();
+
+    // set footer year
+    (function(){ const y = new Date().getFullYear(); document.getElementById('year-footer').textContent = y; })();
+  </script>
+</body>
+</html>

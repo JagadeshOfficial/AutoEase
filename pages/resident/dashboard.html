@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resident Dashboard - AutoEase</title>
     <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/resident-dashboard.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/chart.js" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/weather-icons@2.0.10/css/weather-icons.min.css" rel="stylesheet">
 </head>
 <body>
     <!-- Header -->
@@ -23,10 +24,14 @@
                     <div class="user-profile text-center mb-4">
                         <div class="avatar-container mb-3">
                             <img src="https://ui-avatars.com/api/?name=User&background=2563eb&color=fff" 
-                                 class="rounded-circle" style="width: 80px; height: 80px;">
+                                 class="rounded-circle" style="width: 80px; height: 80px;" id="userAvatar">
+                            <div class="online-status"></div>
                         </div>
                         <h6 class="mb-1" id="userName">Welcome Back!</h6>
                         <p class="text-muted small mb-0" id="userEmail"></p>
+                        <div class="mt-2">
+                            <span class="badge bg-success">Verified User</span>
+                        </div>
                     </div>
                     <div class="sidebar-menu">
                         <a href="#dashboard" class="d-flex align-items-center p-2 rounded-3 text-decoration-none active">
@@ -38,10 +43,27 @@
                         <a href="#vehicles" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
                             <i class="bx bxs-car me-2"></i> My Vehicles
                         </a>
+                        <a href="#services" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
+                            <i class="bx bxs-cog me-2"></i> Services
+                        </a>
+                        <a href="#maintenance" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
+                            <i class="bx bxs-wrench me-2"></i> Maintenance
+                        </a>
                         <a href="#notifications" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
                             <i class="bx bxs-bell me-2"></i> Notifications
                             <span class="badge bg-danger ms-auto">3</span>
                         </a>
+                        <a href="#settings" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
+                            <i class="bx bxs-cog me-2"></i> Settings
+                        </a>
+                        <a href="#help" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
+                            <i class="bx bxs-help-circle me-2"></i> Help & Support
+                        </a>
+                    </div>
+                    <div class="mt-auto pt-4 text-center">
+                        <button class="btn btn-outline-danger btn-sm w-100" onclick="logout()">
+                            <i class="bx bx-log-out me-2"></i> Logout
+                        </button>
                     </div>
                 </div>
             </div>
@@ -60,6 +82,60 @@
                         <a href="book-service.html" class="btn btn-primary">
                             <i class="bx bx-calendar-plus"></i> Book New Service
                         </a>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#" onclick="exportServiceHistory()">
+                                    <i class="bx bx-export me-2"></i> Export Service History
+                                </a></li>
+                                <li><a class="dropdown-item" href="#" onclick="printDashboard()">
+                                    <i class="bx bx-printer me-2"></i> Print Dashboard
+                                </a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" onclick="refreshDashboard()">
+                                    <i class="bx bx-refresh me-2"></i> Refresh Data
+                                </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weather Widget -->
+                <div class="weather-widget mb-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="weather-info">
+                            <i class="wi wi-day-sunny weather-icon"></i>
+                            <div>
+                                <h5 class="mb-1">Current Weather</h5>
+                                <p class="mb-0">72°F - Sunny</p>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <p class="mb-0">Great day for car maintenance!</p>
+                            <small>Updated: <span id="weatherUpdateTime">Just now</span></small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions mb-4">
+                    <div class="quick-action-btn" onclick="location.href='book-service.html'">
+                        <i class="bx bx-calendar-plus fs-4"></i>
+                        <div>Book Service</div>
+                    </div>
+                    <div class="quick-action-btn" onclick="showEmergencyContacts()">
+                        <i class="bx bx-phone fs-4"></i>
+                        <div>Emergency</div>
+                    </div>
+                    <div class="quick-action-btn" onclick="showServiceHistory()">
+                        <i class="bx bx-history fs-4"></i>
+                        <div>History</div>
+                    </div>
+                    <div class="quick-action-btn" onclick="showDocuments()">
+                        <i class="bx bx-file fs-4"></i>
+                        <div>Documents</div>
                     </div>
                 </div>
 
@@ -70,14 +146,25 @@
                             <div class="d-flex justify-content-between">
                                 <div>
                                     <h6 class="text-white-50">Active Bookings</h6>
-                                    <h3 class="mb-0" id="activeBookingsCount">0</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <h3 class="mb-0 me-2" id="activeBookingsCount">0</h3>
+                                        <small class="text-white-50">
+                                            <i class="bx bx-up-arrow-alt"></i> +2 this week
+                                        </small>
+                                    </div>
                                 </div>
                                 <div class="stat-icon">
                                     <i class="bx bx-calendar-check fs-1"></i>
                                 </div>
                             </div>
-                            <div class="progress mt-3" style="height: 4px;">
-                                <div class="progress-bar" style="width: 65%"></div>
+                            <div class="mt-3">
+                                <div class="d-flex justify-content-between text-white-50 mb-1">
+                                    <small>Progress</small>
+                                    <small>65%</small>
+                                </div>
+                                <div class="progress" style="height: 4px;">
+                                    <div class="progress-bar" style="width: 65%"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -86,14 +173,25 @@
                             <div class="d-flex justify-content-between">
                                 <div>
                                     <h6 class="text-white-50">Completed Services</h6>
-                                    <h3 class="mb-0" id="completedServicesCount">0</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <h3 class="mb-0 me-2" id="completedServicesCount">0</h3>
+                                        <small class="text-white-50">
+                                            <i class="bx bx-check-double"></i> All done
+                                        </small>
+                                    </div>
                                 </div>
                                 <div class="stat-icon">
                                     <i class="bx bx-check-circle fs-1"></i>
                                 </div>
                             </div>
-                            <div class="progress mt-3" style="height: 4px;">
-                                <div class="progress-bar" style="width: 80%"></div>
+                            <div class="mt-3">
+                                <div class="d-flex justify-content-between text-white-50 mb-1">
+                                    <small>Success Rate</small>
+                                    <small>80%</small>
+                                </div>
+                                <div class="progress" style="height: 4px;">
+                                    <div class="progress-bar" style="width: 80%"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -102,14 +200,25 @@
                             <div class="d-flex justify-content-between">
                                 <div>
                                     <h6 class="text-white-50">Total Vehicles</h6>
-                                    <h3 class="mb-0" id="totalVehiclesCount">0</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <h3 class="mb-0 me-2" id="totalVehiclesCount">0</h3>
+                                        <small class="text-white-50">
+                                            <i class="bx bx-plus"></i> Add more
+                                        </small>
+                                    </div>
                                 </div>
                                 <div class="stat-icon">
                                     <i class="bx bx-car fs-1"></i>
                                 </div>
                             </div>
-                            <div class="progress mt-3" style="height: 4px;">
-                                <div class="progress-bar" style="width: 45%"></div>
+                            <div class="mt-3">
+                                <div class="d-flex justify-content-between text-white-50 mb-1">
+                                    <small>Capacity</small>
+                                    <small>45%</small>
+                                </div>
+                                <div class="progress" style="height: 4px;">
+                                    <div class="progress-bar" style="width: 45%"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -118,35 +227,95 @@
                             <div class="d-flex justify-content-between">
                                 <div>
                                     <h6 class="text-white-50">Total Spent</h6>
-                                    <h3 class="mb-0" id="totalSpentAmount">$0</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <h3 class="mb-0 me-2" id="totalSpentAmount">$0</h3>
+                                        <small class="text-white-50">
+                                            <i class="bx bx-down-arrow-alt"></i> -15%
+                                        </small>
+                                    </div>
                                 </div>
                                 <div class="stat-icon">
                                     <i class="bx bx-dollar-circle fs-1"></i>
                                 </div>
                             </div>
-                            <div class="progress mt-3" style="height: 4px;">
-                                <div class="progress-bar" style="width: 60%"></div>
+                            <div class="mt-3">
+                                <div class="d-flex justify-content-between text-white-50 mb-1">
+                                    <small>Budget</small>
+                                    <small>60%</small>
+                                </div>
+                                <div class="progress" style="height: 4px;">
+                                    <div class="progress-bar" style="width: 60%"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Service History Chart -->
+                <!-- Service History and Upcoming Services -->
                 <div class="row mb-4">
                     <div class="col-md-8">
                         <div class="dashboard-card">
                             <div class="card-body">
-                                <h5 class="card-title">Service History Overview</h5>
-                                <canvas id="serviceHistoryChart" height="300"></canvas>
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h5 class="card-title mb-0">Service History Overview</h5>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-outline-primary btn-sm active" onclick="updateChartView('monthly')">Monthly</button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm" onclick="updateChartView('weekly')">Weekly</button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm" onclick="updateChartView('yearly')">Yearly</button>
+                                    </div>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas id="serviceHistoryChart"></canvas>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-4 text-center">
+                                        <h6 class="text-muted mb-1">Regular Services</h6>
+                                        <h4 class="mb-0">24</h4>
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <h6 class="text-muted mb-1">Emergency Services</h6>
+                                        <h4 class="mb-0">3</h4>
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <h6 class="text-muted mb-1">Maintenance</h6>
+                                        <h4 class="mb-0">12</h4>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="dashboard-card">
                             <div class="card-body">
-                                <h5 class="card-title">Upcoming Services</h5>
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h5 class="card-title mb-0">Upcoming Services</h5>
+                                    <button class="btn btn-link text-primary p-0" onclick="viewAllServices()">View All</button>
+                                </div>
                                 <div class="timeline" id="upcomingServices">
                                     <!-- Timeline items will be added here -->
+                                </div>
+                                <div class="mt-4">
+                                    <h6 class="text-muted mb-3">Service Reminders</h6>
+                                    <div class="reminder-card">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bx bx-wrench fs-4 me-3 text-primary"></i>
+                                            <div>
+                                                <h6 class="mb-1">Oil Change Due</h6>
+                                                <p class="text-muted mb-0 small">Due in 500 miles</p>
+                                            </div>
+                                            <button class="btn btn-sm btn-primary ms-auto">Schedule</button>
+                                        </div>
+                                    </div>
+                                    <div class="reminder-card">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bx bx-car fs-4 me-3 text-warning"></i>
+                                            <div>
+                                                <h6 class="mb-1">Tire Rotation</h6>
+                                                <p class="text-muted mb-0 small">Due in 2 weeks</p>
+                                            </div>
+                                            <button class="btn btn-sm btn-primary ms-auto">Schedule</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -155,31 +324,81 @@
 
                 <!-- Active Bookings -->
                 <div class="dashboard-card mb-4">
-                    <div class="card-header border-0 bg-transparent">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Active Bookings</h5>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div>
+                                <h5 class="mb-0">Active Bookings</h5>
+                                <p class="text-muted mb-0">Track your ongoing service requests</p>
+                            </div>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="filterBookings('all')">All</button>
-                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="filterBookings('pending')">Pending</button>
-                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="filterBookings('confirmed')">Confirmed</button>
+                                <button type="button" class="btn btn-outline-primary btn-sm active" onclick="filterBookings('all')">
+                                    All <span class="badge bg-primary ms-1">8</span>
+                                </button>
+                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="filterBookings('pending')">
+                                    Pending <span class="badge bg-warning ms-1">3</span>
+                                </button>
+                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="filterBookings('confirmed')">
+                                    Confirmed <span class="badge bg-success ms-1">5</span>
+                                </button>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <div id="activeBookings" class="table-responsive">
-                            <!-- Active bookings will be displayed here -->
+                        <div class="table-responsive">
+                            <table class="table custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Service ID</th>
+                                        <th>Vehicle</th>
+                                        <th>Service Type</th>
+                                        <th>Date & Time</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="activeBookings">
+                                    <!-- Active bookings will be displayed here -->
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
 
                 <!-- Vehicles Section -->
                 <div class="dashboard-card">
-                    <div class="card-header border-0 bg-transparent">
-                        <h5 class="mb-0">My Vehicles</h5>
-                    </div>
                     <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div>
+                                <h5 class="mb-0">My Vehicles</h5>
+                                <p class="text-muted mb-0">Manage your vehicle fleet</p>
+                            </div>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVehicleModal">
+                                <i class="bx bx-plus"></i> Add New Vehicle
+                            </button>
+                        </div>
                         <div class="row g-3" id="vehiclesGrid">
                             <!-- Vehicle cards will be added here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Emergency Services Card -->
+                <div class="dashboard-card mt-4">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5 class="mb-2">24/7 Emergency Services Available</h5>
+                                <p class="text-muted mb-3">Get immediate assistance for unexpected vehicle issues</p>
+                                <div class="d-flex gap-3">
+                                    <button class="btn btn-danger" onclick="callEmergencyService()">
+                                        <i class="bx bx-phone"></i> Call Now
+                                    </button>
+                                    <button class="btn btn-outline-primary" onclick="requestRoadside()">
+                                        <i class="bx bx-map"></i> Request Roadside Assistance
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <img src="/assets/images/emergency-service.svg" alt="Emergency Service" class="img-fluid" style="max-height: 150px;">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -251,6 +470,7 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
     <script src="/assets/js/main.js"></script>
     <script src="/assets/js/auth.js"></script>
     <script src="/assets/js/booking.js"></script>
@@ -271,11 +491,13 @@
             loadUserProfile();
 
             // Load dashboard data
-            displayBookings('activeBookings', 'pending');
+            displayBookings();
             updateDashboardStats();
             initializeServiceHistoryChart();
             loadVehicles();
             displayUpcomingServices();
+            updateWeatherWidget();
+            startAutoRefresh();
         });
 
         // Initialize service history chart
@@ -286,21 +508,151 @@
                 data: {
                     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                     datasets: [{
-                        label: 'Service Requests',
+                        label: 'Regular Services',
                         data: [5, 8, 6, 9, 7, 11],
                         borderColor: '#2563eb',
-                        tension: 0.4
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: 'Emergency Services',
+                        data: [2, 1, 3, 1, 2, 0],
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: 'Maintenance',
+                        data: [3, 4, 2, 5, 3, 4],
+                        borderColor: '#22c55e',
+                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                        tension: 0.4,
+                        fill: true
                     }]
                 },
                 options: {
                     responsive: true,
                     plugins: {
                         legend: {
-                            position: 'bottom'
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
                         }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
                     }
                 }
             });
+        }
+
+        // Update chart view (monthly/weekly/yearly)
+        function updateChartView(timeframe) {
+            // Implementation will update chart data based on timeframe
+            const buttons = document.querySelectorAll('.btn-group .btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Update weather widget
+        function updateWeatherWidget() {
+            // Mock weather data - In production, use a weather API
+            const weather = {
+                temp: 72,
+                condition: 'Sunny',
+                icon: 'wi-day-sunny',
+                recommendation: 'Great day for car maintenance!'
+            };
+
+            const weatherIcon = document.querySelector('.weather-icon');
+            weatherIcon.className = 'wi ' + weather.icon + ' weather-icon';
+            
+            const updateTime = moment().format('h:mm A');
+            document.getElementById('weatherUpdateTime').textContent = updateTime;
+        }
+
+        // Auto refresh dashboard data
+        function startAutoRefresh() {
+            setInterval(() => {
+                updateDashboardStats();
+                updateWeatherWidget();
+            }, 300000); // Refresh every 5 minutes
+        }
+
+        // Export service history
+        function exportServiceHistory() {
+            // Implementation for exporting service history
+            showNotification('Service history exported successfully!');
+        }
+
+        // Print dashboard
+        function printDashboard() {
+            window.print();
+        }
+
+        // Refresh dashboard data
+        function refreshDashboard() {
+            updateDashboardStats();
+            displayBookings();
+            loadVehicles();
+            displayUpcomingServices();
+            updateWeatherWidget();
+            showNotification('Dashboard data refreshed!');
+        }
+
+        // Emergency service functions
+        function callEmergencyService() {
+            // Implementation for emergency call
+            window.location.href = 'tel:911';
+        }
+
+        function requestRoadside() {
+            // Implementation for roadside assistance request
+            showNotification('Roadside assistance request submitted. Help is on the way!');
+        }
+
+        // View all services
+        function viewAllServices() {
+            // Implementation to view all services
+            window.location.href = '#services';
+        }
+
+        // Show emergency contacts
+        function showEmergencyContacts() {
+            // Implementation to show emergency contacts modal
+            // This would be implemented with a modal showing key contact numbers
+        }
+
+        // Show service history
+        function showServiceHistory() {
+            // Implementation to show detailed service history
+            window.location.href = '#services';
+        }
+
+        // Show documents
+        function showDocuments() {
+            // Implementation to show vehicle documents
+            // This would be implemented with a modal showing all vehicle documents
         }
 
         // Load user vehicles
@@ -311,8 +663,15 @@
 
             if (vehicles.length === 0) {
                 vehiclesGrid.innerHTML = `
-                    <div class="col-12 text-center">
-                        <p class="text-muted">No vehicles added yet. Add your first vehicle!</p>
+                    <div class="col-12 text-center p-5">
+                        <div class="mb-4">
+                            <i class="bx bx-car fs-1 text-muted"></i>
+                        </div>
+                        <h5 class="mb-2">No Vehicles Added Yet</h5>
+                        <p class="text-muted mb-4">Start by adding your first vehicle to manage its maintenance schedule.</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVehicleModal">
+                            <i class="bx bx-plus me-2"></i> Add Your First Vehicle
+                        </button>
                     </div>
                 `;
                 return;
@@ -322,23 +681,214 @@
                 <div class="col-md-4">
                     <div class="dashboard-card h-100">
                         <div class="card-body">
-                            <div class="d-flex align-items-center mb-3">
-                                <i class="bx bxs-car fs-1 me-3 text-primary"></i>
-                                <div>
-                                    <h6 class="mb-1">${vehicle.make} ${vehicle.model}</h6>
-                                    <p class="text-muted mb-0">${vehicle.year} • ${vehicle.licensePlate}</p>
+                            <div class="d-flex justify-content-between mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="vehicle-icon me-3">
+                                        <i class="bx bxs-car fs-3"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">${vehicle.make} ${vehicle.model}</h6>
+                                        <p class="text-muted mb-0">
+                                            <span class="badge bg-light text-dark me-2">${vehicle.year}</span>
+                                            <span class="badge bg-light text-dark">${vehicle.licensePlate}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                        <i class="bx bx-dots-vertical-rounded fs-4"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#" onclick="editVehicle('${vehicle.id}')">
+                                            <i class="bx bx-edit me-2"></i> Edit Details
+                                        </a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="viewHistory('${vehicle.id}')">
+                                            <i class="bx bx-history me-2"></i> View History
+                                        </a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="scheduleService('${vehicle.id}')">
+                                            <i class="bx bx-calendar me-2"></i> Schedule Service
+                                        </a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger" href="#" onclick="removeVehicle('${vehicle.id}')">
+                                            <i class="bx bx-trash me-2"></i> Remove Vehicle
+                                        </a></li>
+                                    </ul>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="badge bg-success">Active</span>
-                                <button class="btn btn-sm btn-outline-primary" onclick="scheduleService('${vehicle.id}')">
-                                    Schedule Service
-                                </button>
+                            <div class="vehicle-stats">
+                                <div class="vehicle-stat-item">
+                                    <h6 class="mb-1">Health Score</h6>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <i class="bx bxs-circle me-1 ${getHealthColor(85)}"></i>
+                                        <span>85%</span>
+                                    </div>
+                                </div>
+                                <div class="vehicle-stat-item">
+                                    <h6 class="mb-1">Last Service</h6>
+                                    <small class="text-muted">2 weeks ago</small>
+                                </div>
+                                <div class="vehicle-stat-item">
+                                    <h6 class="mb-1">Mileage</h6>
+                                    <small class="text-muted">15,230 mi</small>
+                                </div>
+                            </div>
+                            <div class="mt-3 pt-3 border-top">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-muted small">Next Service Due</span>
+                                    <span class="badge bg-warning text-dark">In 2 weeks</span>
+                                </div>
+                                <div class="progress" style="height: 6px;">
+                                    <div class="progress-bar bg-warning" style="width: 75%"></div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="viewDetails('${vehicle.id}')">
+                                        View Details
+                                    </button>
+                                    <button class="btn btn-sm btn-primary" onclick="scheduleService('${vehicle.id}')">
+                                        Schedule Service
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             `).join('');
+        }
+
+        // Get health indicator color
+        function getHealthColor(score) {
+            if (score >= 80) return 'text-success';
+            if (score >= 60) return 'text-warning';
+            return 'text-danger';
+        }
+
+        // Vehicle management functions
+        function editVehicle(vehicleId) {
+            // Implementation for editing vehicle details
+            showNotification('Edit vehicle feature coming soon!');
+        }
+
+        function viewHistory(vehicleId) {
+            // Implementation for viewing vehicle history
+            window.location.href = `vehicle-history.html?id=${vehicleId}`;
+        }
+
+        function removeVehicle(vehicleId) {
+            if (confirm('Are you sure you want to remove this vehicle?')) {
+                let vehicles = JSON.parse(localStorage.getItem('vehicles')) || [];
+                vehicles = vehicles.filter(v => v.id !== vehicleId);
+                localStorage.setItem('vehicles', JSON.stringify(vehicles));
+                loadVehicles();
+                updateDashboardStats();
+                showNotification('Vehicle removed successfully');
+            }
+        }
+
+        function viewDetails(vehicleId) {
+            // Implementation for viewing vehicle details
+            window.location.href = `vehicle-details.html?id=${vehicleId}`;
+        }
+        }
+
+        // Display bookings in table
+        function displayBookings(status = 'all') {
+            const bookings = getBookings().filter(b => status === 'all' || b.status === status);
+            const bookingsTable = document.getElementById('activeBookings');
+            
+            if (bookings.length === 0) {
+                bookingsTable.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center py-4">
+                            <div class="text-muted">
+                                <i class="bx bx-calendar-x fs-1 mb-2"></i>
+                                <p>No active bookings found</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            bookingsTable.innerHTML = bookings.map(booking => `
+                <tr>
+                    <td>
+                        <span class="fw-medium">#${booking.id}</span>
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <i class="bx bxs-car fs-5 me-2 text-primary"></i>
+                            <div>
+                                <div class="fw-medium">${booking.vehicleMake} ${booking.vehicleModel}</div>
+                                <small class="text-muted">${booking.vehiclePlate}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="fw-medium">${booking.serviceType}</div>
+                        <small class="text-muted">${booking.serviceDetails || 'Regular maintenance'}</small>
+                    </td>
+                    <td>
+                        <div>${moment(booking.serviceDate).format('MMM DD, YYYY')}</div>
+                        <small class="text-muted">${booking.serviceTime}</small>
+                    </td>
+                    <td>
+                        <span class="badge status-badge ${getStatusClass(booking.status)}">
+                            ${capitalizeFirst(booking.status)}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-light" data-bs-toggle="dropdown">
+                                Actions <i class="bx bx-chevron-down"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="viewBookingDetails('${booking.id}')">
+                                    <i class="bx bx-show me-2"></i> View Details
+                                </a></li>
+                                <li><a class="dropdown-item" href="#" onclick="rescheduleBooking('${booking.id}')">
+                                    <i class="bx bx-calendar me-2"></i> Reschedule
+                                </a></li>
+                                <li><a class="dropdown-item" href="#" onclick="cancelBooking('${booking.id}')">
+                                    <i class="bx bx-x-circle me-2"></i> Cancel Booking
+                                </a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Helper functions for bookings
+        function getStatusClass(status) {
+            const classes = {
+                'pending': 'status-pending',
+                'confirmed': 'status-confirmed',
+                'completed': 'status-completed',
+                'cancelled': 'text-danger'
+            };
+            return classes[status] || 'text-secondary';
+        }
+
+        function capitalizeFirst(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function viewBookingDetails(bookingId) {
+            // Implementation for viewing booking details
+            window.location.href = `booking-details.html?id=${bookingId}`;
+        }
+
+        function rescheduleBooking(bookingId) {
+            // Implementation for rescheduling booking
+            showNotification('Reschedule feature coming soon!');
+        }
+
+        function cancelBooking(bookingId) {
+            if (confirm('Are you sure you want to cancel this booking?')) {
+                // Implementation for canceling booking
+                showNotification('Booking cancelled successfully');
+                displayBookings();
+            }
         }
 
         // Add new vehicle
@@ -351,7 +901,10 @@
                 make: form.querySelector('input[type="text"]').value,
                 model: form.querySelector('input[type="text"]:nth-of-type(1)').value,
                 year: form.querySelector('input[type="number"]').value,
-                licensePlate: form.querySelector('input[type="text"]:nth-of-type(2)').value
+                licensePlate: form.querySelector('input[type="text"]:nth-of-type(2)').value,
+                lastService: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
+                mileage: Math.floor(Math.random() * 50000) + 10000,
+                healthScore: Math.floor(Math.random() * 20) + 80
             };
 
             let vehicles = JSON.parse(localStorage.getItem('vehicles')) || [];
@@ -367,6 +920,7 @@
             
             // Reload vehicles grid
             loadVehicles();
+            updateDashboardStats();
         }
 
         // Display upcoming services in timeline

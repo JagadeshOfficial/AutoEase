@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>About — AutoEase</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/header.css">
+    <link rel="stylesheet" href="/assets/css/footer.css">
+    <meta name="description" content="AutoEase — premium on-site car services for gated communities: car wash, servicing, repairs, and trusted providers at your doorstep.">
+</head>
+<body>
+    <!-- Header (inlined) -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <i class='bx bxs-car text-primary me-2'></i>
+                <span class="text-primary fw-bold">AutoEase</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center gap-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class='bx bx-home-alt me-1'></i>
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index.html#services">
+                            <i class='bx bx-car me-1'></i>
+                            Services
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/pages/about.html">
+                            <i class='bx bx-info-circle me-1'></i>
+                            About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index.html#contact">
+                            <i class='bx bx-envelope me-1'></i>
+                            Contact
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown ms-2">
+                        <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class='bx bx-user-circle me-1'></i>
+                            Account
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><h6 class="dropdown-header">Login As</h6></li>
+                            <li><a class="dropdown-item" href="#" onclick="showLoginModal('resident')">
+                                <i class='bx bx-user me-2'></i>Resident Login
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="showLoginModal('provider')">
+                                <i class='bx bxs-car-garage me-2'></i>Service Provider Login
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="showLoginModal('admin')">
+                                <i class='bx bx-shield-quarter me-2'></i>Admin Login
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h6 class="dropdown-header">Register</h6></li>
+                            <li><a class="dropdown-item" href="#" onclick="showRegisterModal('resident')">
+                                <i class='bx bx-user-plus me-2'></i>Register as Resident
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="showRegisterModal('provider')">
+                                <i class='bx bx-store-alt me-2'></i>Join as Service Provider
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- About Hero -->
+        <section class="hero-section bg-light py-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <h1 class="display-4 fw-bold">About AutoEase</h1>
+                        <p class="lead text-secondary">We provide premium, convenient, and trusted car services to residents inside gated communities — from thorough washes to certified repairs. Our mission is to make vehicle care effortless, safe, and professional.</p>
+                        <ul class="list-unstyled mt-4">
+                            <li class="mb-2"><i class="bx bxs-check-circle text-primary me-2"></i>On-site car wash & detailing</li>
+                            <li class="mb-2"><i class="bx bxs-check-circle text-primary me-2"></i>Routine servicing & maintenance</li>
+                            <li class="mb-2"><i class="bx bxs-check-circle text-primary me-2"></i>Repairs & diagnostics by certified technicians</li>
+                            <li class="mb-2"><i class="bx bxs-check-circle text-primary me-2"></i>Trusted providers and scheduled visits</li>
+                        </ul>
+                        <p class="mt-4"><a href="/pages/resident/book-service.html" class="btn btn-primary">Book a Service</a></p>
+                    </div>
+                    <div class="col-lg-6 text-center">
+                        <img src="/assets/images/index.jpg" alt="AutoEase car wash" class="img-fluid rounded shadow" style="max-height:420px; object-fit:cover;">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Approach -->
+        <section class="py-5">
+            <div class="container">
+                <div class="row g-4 align-items-center">
+                    <div class="col-md-6">
+                        <img src="/assets/images/Car-washing.jpg" alt="car washing" class="img-fluid rounded shadow-sm">
+                    </div>
+                    <div class="col-md-6">
+                        <h2>How we work</h2>
+                        <p class="text-secondary">AutoEase partners with certified local providers and trains them to deliver consistent on-site service inside gated communities. We coordinate access, handle scheduling, and ensure quality so residents receive a seamless experience.</p>
+                        <ol class="mt-3">
+                            <li>Book a service at your preferred time.</li>
+                            <li>We confirm and coordinate access with community management.</li>
+                            <li>Certified technicians arrive with tools and supplies.</li>
+                            <li>Quality check and secure payment after completion.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features / Benefits -->
+        <section class="py-5 bg-light">
+            <div class="container">
+                <h2 class="text-center mb-4">Benefits for Residents</h2>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card p-4 text-center">
+                            <i class="bx bxs-timer display-4 text-primary mb-3"></i>
+                            <h5>Save Time</h5>
+                            <p class="text-secondary">No travel — we service your vehicle at your home within the community.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card p-4 text-center">
+                            <i class="bx bxs-shield-check display-4 text-primary mb-3"></i>
+                            <h5>Trusted Technicians</h5>
+                            <p class="text-secondary">All providers are vetted and certified for safety and quality.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card p-4 text-center">
+                            <i class="bx bxs-wallet display-4 text-primary mb-3"></i>
+                            <h5>Transparent Pricing</h5>
+                            <p class="text-secondary">Clear pricing and options — no surprises at the end.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Services Overview -->
+        <section class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-4">Our Services</h2>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card h-100 p-3 text-center">
+                            <img src="/assets/images/Car-washing.jpg" alt="car washing" class="img-fluid mb-3 rounded">
+                            <h5>Car Washing & Detailing</h5>
+                            <p class="text-secondary">Full exterior & interior cleaning with premium products.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 p-3 text-center">
+                            <img src="/assets/images/Car-service.jpg" alt="car servicing" class="img-fluid mb-3 rounded">
+                            <h5>Car Servicing</h5>
+                            <p class="text-secondary">Oil changes, inspections, and scheduled maintenance.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 p-3 text-center">
+                            <img src="/assets/images/Car-repairing.jpg" alt="car repairing" class="img-fluid mb-3 rounded">
+                            <h5>Car Repairs</h5>
+                            <p class="text-secondary">Diagnostics and on-site minor repairs by certified mechanics.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="py-5 text-center bg-primary text-white">
+            <div class="container">
+                <h3 class="mb-3">Ready to make vehicle care effortless?</h3>
+                <p class="mb-4">Book a service now and enjoy professional care delivered to your doorstep.</p>
+                <a href="/pages/resident/book-service.html" class="btn btn-light btn-lg">Book Now</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer (inlined) -->
+    <footer class="site-footer bg-dark text-light pt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="text-white">AutoEase</h5>
+                    <p class="small">Convenient car services for gated communities — maintenance, washing, repairs and more delivered to your doorstep.</p>
+                    <p class="small mb-0">© <span id="year">2025</span> AutoEase. All rights reserved.</p>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h6 class="text-white">Quick Links</h6>
+                    <ul class="list-unstyled small">
+                        <li><a class="text-light" href="/">Home</a></li>
+                        <li><a class="text-light" href="/pages/about.html">About</a></li>
+                        <li><a class="text-light" href="/index.html#services">Services</a></li>
+                        <li><a class="text-light" href="/index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="text-white">Services</h6>
+                    <ul class="list-unstyled small">
+                        <li>Car Washing</li>
+                        <li>Car Servicing</li>
+                        <li>Car Repairs</li>
+                        <li>Pick & Drop</li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="text-white">Contact</h6>
+                    <p class="small mb-1">support@autoease.example</p>
+                    <p class="small">+1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12 text-center small">
+                    Built with ❤️ for gated communities.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/assets/js/main.js"></script>
+    <!-- main.js provides general UI helpers and auth functions -->
+</body>
+</html>

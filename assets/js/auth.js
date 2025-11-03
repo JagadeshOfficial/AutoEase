@@ -19,6 +19,47 @@ const DEMO_ACCOUNTS = {
     }
 };
 
+// Show login modal with pre-filled demo credentials
+function showLoginModal(userType = 'resident') {
+    const loginModal = document.getElementById('loginModal');
+    if (!loginModal) return;
+    
+    // Set the user type
+    const userTypeInput = document.getElementById('userType');
+    if (userTypeInput) userTypeInput.value = userType;
+    
+    // Pre-fill demo credentials if available
+    const account = DEMO_ACCOUNTS[userType];
+    if (account) {
+        const emailInput = document.getElementById('loginEmail');
+        const passwordInput = document.getElementById('loginPassword');
+        if (emailInput) emailInput.value = account.email;
+        if (passwordInput) passwordInput.value = account.password;
+    }
+    
+    // Show the modal
+    const modal = new bootstrap.Modal(loginModal);
+    modal.show();
+}
+
+// Show registration modal
+function showRegisterModal(userType = 'resident') {
+    const registerModal = document.getElementById('registerModal');
+    if (!registerModal) return;
+    
+    // Set the user type
+    const userTypeInput = document.getElementById('registerUserType');
+    if (userTypeInput) userTypeInput.value = userType;
+    
+    // Clear any existing form data
+    const form = document.getElementById('registerForm');
+    if (form) form.reset();
+    
+    // Show the modal
+    const modal = new bootstrap.Modal(registerModal);
+    modal.show();
+}
+
 function showLoginModal(userType) {
     const modal = new bootstrap.Modal(document.getElementById('loginModal'));
     document.getElementById('userType').value = userType;
@@ -34,50 +75,46 @@ function showLoginModal(userType) {
 
 function login(event) {
     event.preventDefault();
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-    const userType = document.getElementById('userType').value;
+    
+    const email = document.getElementById('loginEmail')?.value;
+    const password = document.getElementById('loginPassword')?.value;
+    const userType = document.getElementById('userType')?.value;
+    
+    if (!email || !password || !userType) {
+        alert('Please fill in all fields');
+        return;
+    }
 
-    // Validate against demo accounts
+    // Check demo accounts
     const account = DEMO_ACCOUNTS[userType];
     if (account && account.email === email && account.password === password) {
-        // Store user info in localStorage
+        // Store user info
         localStorage.setItem('userEmail', email);
         localStorage.setItem('userType', userType);
         localStorage.setItem('userName', account.name);
-
-        // Check if there's a redirect URL stored
+        
+        // Hide modal
+        const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+        if (loginModal) loginModal.hide();
+        
+        // Check for redirect
         const redirectUrl = sessionStorage.getItem('redirectAfterLogin');
         if (redirectUrl) {
-            sessionStorage.removeItem('redirectAfterLogin'); // Clear the stored URL
+            sessionStorage.removeItem('redirectAfterLogin');
             window.location.href = redirectUrl;
-        } else {
-            // Default redirects based on user type
-            switch(userType) {
-                case 'admin':
-                    window.location.href = '/pages/admin/dashboard.html';
-                    break;
-                case 'resident':
-                    window.location.href = '/pages/resident/dashboard.html';
-                    break;
-                case 'provider':
-                    window.location.href = '/pages/provider/dashboard.html';
-                    break;
-            }
+            return;
         }
         
-        // Redirect based on user type
-        switch(userType) {
-            case 'admin':
-                window.location.href = '/pages/admin/dashboard.html';
-                break;
-            case 'provider':
-                window.location.href = '/pages/provider/dashboard.html';
-                break;
-            case 'resident':
-                window.location.href = '/pages/resident/dashboard.html';
-                break;
-        }
+        // Default redirects
+        const dashboards = {
+            admin: '/pages/admin/dashboard.html',
+            provider: '/pages/provider/dashboard.html',
+            resident: '/pages/resident/dashboard.html'
+        };
+        
+        window.location.href = dashboards[userType] || '/index.html';
+    } else {
+        alert('Invalid credentials. Please use the demo account credentials.');
     }
 }
 
@@ -101,30 +138,39 @@ function checkAuth() {
 // Register new user
 function register(event) {
     event.preventDefault();
-    const email = document.getElementById('registerEmail').value;
-    const password = document.getElementById('registerPassword').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const userType = document.getElementById('userType').value;
-
+    
+    const form = event.target;
+    const name = form.querySelector('#registerName')?.value;
+    const email = form.querySelector('#registerEmail')?.value;
+    const password = form.querySelector('#registerPassword')?.value;
+    const confirmPassword = form.querySelector('#confirmPassword')?.value;
+    const userType = form.querySelector('#registerUserType')?.value;
+    
+    if (!name || !email || !password || !confirmPassword || !userType) {
+        alert('Please fill in all fields');
+        return;
+    }
+    
     if (password !== confirmPassword) {
         alert('Passwords do not match!');
         return;
     }
-
-    // Here you would typically make an API call to your backend
-    // For demonstration, we'll use local storage
-    if (email && password) {
-        localStorage.setItem('userEmail', email);
-        localStorage.setItem('userType', userType);
-        
-        // Redirect based on user type
-        switch(userType) {
-            case 'provider':
-                window.location.href = '/pages/provider/dashboard.html';
-                break;
-            case 'resident':
-                window.location.href = '/pages/resident/dashboard.html';
-                break;
-        }
-    }
+    
+    // In a real app, you'd make an API call here
+    // For demo, we'll just store in localStorage
+    localStorage.setItem('userEmail', email);
+    localStorage.setItem('userType', userType);
+    localStorage.setItem('userName', name);
+    
+    // Hide modal
+    const registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+    if (registerModal) registerModal.hide();
+    
+    // Redirect to dashboard
+    const dashboards = {
+        provider: '/pages/provider/dashboard.html',
+        resident: '/pages/resident/dashboard.html'
+    };
+    
+    window.location.href = dashboards[userType] || '/index.html';
 }
