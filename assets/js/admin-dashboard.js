@@ -278,6 +278,16 @@ function loadSectionData(section) {
     }
 }
 
+// Backwards-compatible helper expected by older code
+function loadMockData() {
+    try {
+        // Populate dashboard stats and currently active section
+        loadDashboardStats();
+    } catch (e) {
+        console.error('loadMockData error', e);
+    }
+}
+
 // Demo bookings and messages
 const demoBookings = [
     { id: 1234, userEmail: 'emma.t@example.com', provider: 'AutoCare Plus', service: 'Oil Change', serviceDate: '2025-11-03', status: 'pending', price: '79.99' },

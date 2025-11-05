@@ -562,49 +562,20 @@
         });
     </script>
     <script>
-        // Sidebar navigation: toggle sections
-        document.addEventListener('DOMContentLoaded', function() {
+        // Robust sidebar section switcher (fallback implementation)
+        document.addEventListener('DOMContentLoaded', function () {
             const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
-            const mainCol = document.querySelector('.col-lg-10');
-            let lastActiveSection = null;
+            const sections = document.querySelectorAll('.admin-section');
 
-            async function initializeDataTables() {
-                if (!window.jQuery || !window.jQuery.fn || !window.jQuery.fn.dataTable) return;
-                
-                const $ = window.jQuery;
-                const tables = ['#usersTable', '#providersTable', '#bookingsTable'];
-                
-                for (const tableId of tables) {
-                    try {
-                        if ($.fn.dataTable.isDataTable(tableId)) {
-                            $(tableId).DataTable().destroy();
-                        }
-                        if ($(tableId).length) {
-                            $(tableId).DataTable({
-                                pageLength: 5,
-                                lengthChange: false,
-                                searching: false,
-                                info: false
-                            });
-                        }
-                    } catch (e) {
-                        console.error(`Error initializing DataTable ${tableId}:`, e);
-                    }
-                }
+            function setActiveLink(sectionId) {
+                sidebarLinks.forEach(link => {
+                    const href = (link.getAttribute('href') || '').replace('#', '');
+                    link.classList.toggle('active', href === sectionId);
+                });
             }
 
-            async function showSection(id) {
-                if (!mainCol || id === lastActiveSection) return;
-                lastActiveSection = id;
-
-                // Update active class on sidebar
-                sidebarLinks.forEach(link => {
-                    const href = link.getAttribute('href') || '';
-                    link.classList.toggle('active', href === '#' + id);
-                });
-
-                // Show/hide admin-section blocks
-                const sections = document.querySelectorAll('.admin-section');
+            function showSection(id) {
+                if (!id) id = 'dashboard';
                 sections.forEach(s => {
                     if (s.id === id) {
                         s.style.display = '';
@@ -615,55 +586,63 @@
                     }
                 });
 
-                // Toggle other main content (dashboard-only)
-                Array.from(mainCol.children).forEach(child => {
-                    if (child.classList && child.classList.contains('admin-section')) return;
-                    child.style.display = (id === 'dashboard') ? '' : 'none';
-                });
+                // ensure any non-section children are only visible on dashboard
+                const mainCol = document.querySelector('.col-lg-10');
+                if (mainCol) {
+                    Array.from(mainCol.children).forEach(child => {
+                        if (child.classList && child.classList.contains('admin-section')) return;
+                        child.style.display = (id === 'dashboard') ? '' : 'none';
+                    });
+                }
+
+                // Set active link
+                setActiveLink(id);
+
+                // Try to (re)initialize content if helper functions exist
+                try {
+                    if (typeof loadMockData === 'function') loadMockData();
+                } catch (e) {
+                    console.error('loadMockData error', e);
+                }
+
+                // Let admin JS populate the specific section (users/providers/bookings/messages)
+                try {
+                    if (typeof loadSectionData === 'function') {
+                        loadSectionData(id);
+                    }
+                } catch (e) { console.error('loadSectionData error', e); }
 
                 try {
-                    // Load data first
-                    if (typeof loadMockData === 'function') {
-                        await Promise.resolve(loadMockData());
+                    if (window.jQuery && window.jQuery.fn && window.jQuery.fn.dataTable) {
+                        ['#usersTable', '#providersTable', '#bookingsTable'].forEach(tableId => {
+                            try {
+                                const $t = window.jQuery(tableId);
+                                if ($t.length) {
+                                    if (window.jQuery.fn.dataTable.isDataTable(tableId)) {
+                                        $t.DataTable().destroy();
+                                    }
+                                    $t.DataTable({ pageLength: 5, lengthChange: false, searching: false, info: false });
+                                }
+                            } catch (err) { /* ignore table init errors */ }
+                        });
                     }
-                    // Then initialize tables
-                    await initializeDataTables();
-                    // Update URL hash last
-                    window.location.hash = id;
-                } catch (e) {
-                    console.error('Error during section initialization:', e);
-                }
+                } catch (e) { console.error(e); }
+
+                try { window.location.hash = id; } catch (e) {}
             }
 
             sidebarLinks.forEach(link => {
-                link.addEventListener('click', async function(e) {
+                link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const target = (this.getAttribute('href') || '').replace('#', '');
                     if (!target) return;
-                    await showSection(target);
+                    showSection(target);
                 });
             });
 
-            // Add fade transition style
-            const style = document.createElement('style');
-            style.textContent = `
-                .admin-section {
-                    opacity: 0;
-                    transition: opacity 0.2s ease-in-out;
-                }
-                .admin-section.fade-in {
-                    opacity: 1;
-                }
-            `;
-            document.head.appendChild(style);
-
-            // Start on section based on URL hash (if valid), otherwise dashboard
-            const initialHash = (window.location.hash || '').replace('#', '');
-            if (initialHash && document.getElementById(initialHash)) {
-                showSection(initialHash);
-            } else {
-                showSection('dashboard');
-            }
+            // initial
+            const initial = (window.location.hash || '#dashboard').replace('#', '');
+            showSection(initial);
         });
     </script>
 </body>
