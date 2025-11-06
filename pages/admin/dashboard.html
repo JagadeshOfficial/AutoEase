@@ -1,649 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Admin Dashboard - AutoEase</title>
+
     <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="../../assets/css/admin-dashboard.css">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/apexcharts/dist/apexcharts.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/moment/moment.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
 </head>
 <body>
-    <!-- Header -->
-    <header class="admin-header">
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid px-4">
-                <a class="navbar-brand d-flex align-items-center" href="/">
-                    <i class="bx bxs-car-mechanic fs-2 me-2"></i>
-                    <span>AutoEase</span>
-                </a>
-                
-                <div class="d-flex align-items-center gap-3">
-                    <div class="search-bar">
-                        <i class="bx bx-search"></i>
-                        <input type="text" placeholder="Search...">
-                    </div>
-                    
-                    <div class="header-actions d-flex align-items-center gap-3">
-                        <button class="btn btn-icon" id="notificationsBtn">
-                            <i class="bx bx-bell"></i>
-                            <span class="badge">3</span>
-                        </button>
-                        <button class="btn btn-icon" id="messagesBtn">
-                            <i class="bx bx-envelope"></i>
-                            <span class="badge">5</span>
-                        </button>
-                        <div class="admin-profile dropdown">
-                            <button class="btn p-0" data-bs-toggle="dropdown">
-                                <img src="https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff" 
-                                     class="rounded-circle" width="40" height="40">
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#"><i class="bx bx-user me-2"></i>Profile</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bx bx-cog me-2"></i>Settings</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-danger" href="#" onclick="logout()"><i class="bx bx-log-out me-2"></i>Logout</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Main Content -->
-    <main class="container-fluid mt-4">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-lg-2 d-none d-lg-block">
-                <div class="dashboard-sidebar p-3 bg-white rounded-3 shadow-sm">
-                    <div class="admin-profile text-center mb-4">
-                        <div class="avatar-container mb-3">
-                            <img src="https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff" 
-                                 class="rounded-circle" style="width: 80px; height: 80px;">
-                            <span class="status-badge online"></span>
-                        </div>
-                        <h6 class="mb-1">System Administrator</h6>
-                        <p class="text-muted small mb-0" id="adminEmail"></p>
-                    </div>
-                    <div class="sidebar-menu">
-                        <a href="#dashboard" class="d-flex align-items-center p-2 rounded-3 text-decoration-none active">
-                            <i class="bx bxs-dashboard me-2"></i> Dashboard
-                        </a>
-                        <a href="#users" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
-                            <i class="bx bxs-user-account me-2"></i> Users
-                        </a>
-                        <a href="#providers" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
-                            <i class="bx bxs-car-mechanic me-2"></i> Providers
-                        </a>
-                        <a href="#bookings" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
-                            <i class="bx bxs-calendar-event me-2"></i> Bookings
-                        </a>
-                        <a href="#messages" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
-                            <i class="bx bxs-envelope me-2"></i> Messages
-                        </a>
-                        <a href="#services" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
-                            <i class="bx bxs-cog me-2"></i> Services
-                        </a>
-                        <a href="#reports" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
-                            <i class="bx bxs-report me-2"></i> Reports
-                        </a>
-                        <a href="#settings" class="d-flex align-items-center p-2 rounded-3 text-decoration-none">
-                            <i class="bx bxs-cog me-2"></i> Settings
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Main Dashboard Content -->
-            <div class="col-lg-10">
-                <!-- Sections: dashboard, users, providers, services, reports, settings -->
-                <div id="dashboard" class="admin-section">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <h1 class="h3 mb-0">Admin Dashboard</h1>
-                        <p class="text-muted mb-0">System Overview and Analytics</p>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <div class="dropdown">
-                            <button class="btn btn-outline-primary" data-bs-toggle="dropdown">
-                                <i class="bx bx-export"></i> Export
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#" onclick="exportData('pdf')">Export as PDF</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="exportData('excel')">Export as Excel</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="exportData('csv')">Export as CSV</a></li>
-                            </ul>
-                        </div>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#generateReportModal">
-                            <i class="bx bx-plus"></i> Generate Report
-                        </button>
-                    </div>
-                </div>
-
-                <div id="users" class="admin-section" style="display:none;">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <h1 class="h3 mb-0">Users</h1>
-                            <p class="text-muted mb-0">Manage application users</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="dashboard-card">
-                                <div class="card-header border-0 bg-transparent">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="mb-0">Recent Users</h5>
-                                        <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover" id="usersTable">
-                                            <thead>
-                                                <tr>
-                                                    <th>User</th>
-                                                    <th>Type</th>
-                                                    <th>Joined</th>
-                                                    <th>Status</th>
-                                                    <th>Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="recentUsersList">
-                                                <!-- Users will be loaded here -->
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="providers" class="admin-section" style="display:none;">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <h1 class="h3 mb-0">Providers</h1>
-                            <p class="text-muted mb-0">Manage service providers</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="dashboard-card">
-                                <div class="card-header border-0 bg-transparent">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="mb-0">Active Providers</h5>
-                                        <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover" id="providersTable">
-                                            <thead>
-                                                <tr>
-                                                    <th>Provider</th>
-                                                    <th>Services</th>
-                                                    <th>Rating</th>
-                                                    <th>Status</th>
-                                                    <th>Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="activeProvidersList">
-                                                <!-- Providers will be loaded here -->
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="bookings" class="admin-section" style="display:none;">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <h1 class="h3 mb-0">Bookings</h1>
-                            <p class="text-muted mb-0">Manage all bookings and appointments</p>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-outline-secondary" id="filterAllBookings">All</button>
-                            <button class="btn btn-outline-primary" id="filterPendingBookings">Pending</button>
-                            <button class="btn btn-outline-success" id="filterConfirmedBookings">Confirmed</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="dashboard-card">
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover" id="bookingsTable">
-                                            <thead>
-                                                <tr>
-                                                    <th>Booking ID</th>
-                                                    <th>User</th>
-                                                    <th>Provider</th>
-                                                    <th>Service</th>
-                                                    <th>Date</th>
-                                                    <th>Status</th>
-                                                    <th>Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="bookingsList">
-                                                <!-- Bookings will be loaded here -->
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="messages" class="admin-section" style="display:none;">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <h1 class="h3 mb-0">Messages</h1>
-                            <p class="text-muted mb-0">User & provider messages</p>
-                        </div>
-                        <div>
-                            <button class="btn btn-outline-primary" id="composeMessageBtn">Compose</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="dashboard-card p-3">
-                                <div id="messagesList">
-                                    <!-- Messages will be loaded here -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="services" class="admin-section" style="display:none;">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <h1 class="h3 mb-0">Services</h1>
-                            <p class="text-muted mb-0">Manage service types and pricing</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="dashboard-card p-4">
-                                <p class="mb-0">Service configuration UI will appear here. (Placeholder)</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="reports" class="admin-section" style="display:none;">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <h1 class="h3 mb-0">Reports</h1>
-                            <p class="text-muted mb-0">Generate and export reports</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="dashboard-card p-4">
-                                <p class="mb-0">Reporting tools will appear here. (Placeholder)</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="settings" class="admin-section" style="display:none;">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <h1 class="h3 mb-0">Settings</h1>
-                            <p class="text-muted mb-0">Application and account settings</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="dashboard-card p-4">
-                                <p class="mb-0">Settings UI will appear here. (Placeholder)</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Quick Stats -->
-                <div class="row g-3 mb-4">
-                    <div class="col-md-3">
-                        <div class="stat-card dashboard-card">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h6 class="text-white-50">Total Users</h6>
-                                    <h3 class="mb-0" id="totalUsers">0</h3>
-                                    <p class="text-white-50 mb-0"><small>↑ 12% this month</small></p>
-                                </div>
-                                <div class="stat-icon">
-                                    <i class="bx bxs-user-account fs-1"></i>
-                                </div>
-                            </div>
-                            <div class="progress mt-3" style="height: 4px;">
-                                <div class="progress-bar" style="width: 65%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="stat-card dashboard-card" style="background: linear-gradient(135deg, #22c55e, #16a34a)">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h6 class="text-white-50">Active Providers</h6>
-                                    <h3 class="mb-0" id="activeProviders">0</h3>
-                                    <p class="text-white-50 mb-0"><small>↑ 8% this month</small></p>
-                                </div>
-                                <div class="stat-icon">
-                                    <i class="bx bxs-car-mechanic fs-1"></i>
-                                </div>
-                            </div>
-                            <div class="progress mt-3" style="height: 4px;">
-                                <div class="progress-bar" style="width: 75%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="stat-card dashboard-card" style="background: linear-gradient(135deg, #f59e0b, #d97706)">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h6 class="text-white-50">Total Bookings</h6>
-                                    <h3 class="mb-0" id="totalBookings">0</h3>
-                                    <p class="text-white-50 mb-0"><small>↑ 15% this month</small></p>
-                                </div>
-                                <div class="stat-icon">
-                                    <i class="bx bxs-calendar-check fs-1"></i>
-                                </div>
-                            </div>
-                            <div class="progress mt-3" style="height: 4px;">
-                                <div class="progress-bar" style="width: 85%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="stat-card dashboard-card" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9)">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h6 class="text-white-50">Total Revenue</h6>
-                                    <h3 class="mb-0" id="totalRevenue">$0</h3>
-                                    <p class="text-white-50 mb-0"><small>↑ 20% this month</small></p>
-                                </div>
-                                <div class="stat-icon">
-                                    <i class="bx bx-dollar-circle fs-1"></i>
-                                </div>
-                            </div>
-                            <div class="progress mt-3" style="height: 4px;">
-                                <div class="progress-bar" style="width: 90%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Charts Row -->
-                <div class="row mb-4">
-                    <div class="col-md-8">
-                        <div class="dashboard-card">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <h5 class="card-title mb-0">Revenue Analytics</h5>
-                                    <div class="btn-group">
-                                        <button class="btn btn-outline-primary btn-sm active">Year</button>
-                                        <button class="btn btn-outline-primary btn-sm">Month</button>
-                                        <button class="btn btn-outline-primary btn-sm">Week</button>
-                                    </div>
-                                </div>
-                                <div id="revenueChart"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="dashboard-card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title mb-4">Service Categories</h5>
-                                <div id="serviceCategories"></div>
-                                <div class="mt-4">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="text-muted">Most Popular</span>
-                                        <span class="fw-bold">Oil Change</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="text-muted">Least Popular</span>
-                                        <span class="fw-bold">AC Service</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                
-
-                <!-- System Health and Recent Activity -->
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="dashboard-card">
-                            <div class="card-body">
-                                <h5 class="card-title mb-4">System Health</h5>
-                                <div class="mb-4">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span>Server Uptime</span>
-                                        <span class="text-success">99.9%</span>
-                                    </div>
-                                    <div class="progress" style="height: 6px;">
-                                        <div class="progress-bar bg-success" style="width: 99.9%"></div>
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span>Response Time</span>
-                                        <span class="text-primary">120ms</span>
-                                    </div>
-                                    <div class="progress" style="height: 6px;">
-                                        <div class="progress-bar bg-primary" style="width: 85%"></div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span>Storage Usage</span>
-                                        <span class="text-warning">75%</span>
-                                    </div>
-                                    <div class="progress" style="height: 6px;">
-                                        <div class="progress-bar bg-warning" style="width: 75%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="dashboard-card">
-                            <div class="card-body">
-                                <h5 class="card-title mb-4">Recent Activity</h5>
-                                <div class="activity-feed" id="activityFeed">
-                                    <!-- Activity items will be loaded here -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Generate Report Modal -->
-    <div class="modal fade" id="generateReportModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Generate Report</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="reportForm">
-                        <div class="mb-3">
-                            <label class="form-label">Report Type</label>
-                            <select class="form-select" id="reportType" required>
-                                <option value="">Select report type</option>
-                                <option value="users">Users Report</option>
-                                <option value="providers">Providers Report</option>
-                                <option value="bookings">Bookings Report</option>
-                                <option value="revenue">Revenue Report</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Date Range</label>
-                            <input type="text" class="form-control" id="reportDateRange">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Format</label>
-                            <div class="btn-group w-100" role="group">
-                                <input type="radio" class="btn-check" name="reportFormat" id="formatPDF" value="pdf" checked>
-                                <label class="btn btn-outline-primary" for="formatPDF">PDF</label>
-                                <input type="radio" class="btn-check" name="reportFormat" id="formatExcel" value="excel">
-                                <label class="btn btn-outline-primary" for="formatExcel">Excel</label>
-                                <input type="radio" class="btn-check" name="reportFormat" id="formatCSV" value="csv">
-                                <label class="btn btn-outline-primary" for="formatCSV">CSV</label>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Generate Report</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+<header class="admin-header shadow-sm">
+  <div class="container-fluid d-flex align-items-center justify-content-between py-2">
+    <div class="d-flex align-items-center gap-3">
+      <a href="/" class="brand d-flex align-items-center text-decoration-none">
+        <i class="bx bxs-car-mechanic fs-3"></i>
+        <span class="ms-2 fw-bold">AutoEase</span>
+      </a>
+      <div class="search-bar d-none d-md-flex align-items-center">
+        <i class="bx bx-search me-2"></i>
+        <input class="form-control form-control-sm" placeholder="Search..." />
+      </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="admin-footer">
-        <div class="container-fluid px-4">
-            <div class="d-flex justify-content-between align-items-center py-3">
-                <div class="footer-left">
-                    <p class="mb-0">&copy; 2025 AutoEase. All rights reserved.</p>
-                </div>
-                <div class="footer-right d-flex gap-3">
-                    <a href="#" class="text-muted">Privacy Policy</a>
-                    <a href="#" class="text-muted">Terms of Service</a>
-                    <a href="#" class="text-muted">Help Center</a>
-                </div>
-            </div>
+    <div class="d-flex align-items-center gap-3">
+      <button class="btn btn-sm btn-light position-relative">
+        <i class="bx bx-bell"></i><span class="badge bg-danger position-absolute top-0 start-100 translate-middle">3</span>
+      </button>
+      <div class="dropdown">
+        <a class="d-flex align-items-center text-decoration-none" data-bs-toggle="dropdown" href="#">
+          <img src="https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff" class="rounded-circle" width="36" height="36" />
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li><a class="dropdown-item" href="#">Settings</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-danger" href="#" onclick="logout && logout()">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container-fluid mt-4">
+  <div class="row">
+    <aside class="col-lg-2 col-md-3 mb-4">
+      <div class="dashboard-sidebar p-3 shadow-sm rounded">
+        <div class="text-center mb-3">
+          <img src="https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff" class="rounded-circle mb-2" width="72" height="72" />
+          <div><strong>System Administrator</strong></div>
+          <div id="adminEmail" class="text-muted small"></div>
         </div>
-    </footer>
 
-    <!-- Scripts -->
-    <script src="../../assets/js/main.js"></script>
-    <script src="../../assets/js/auth.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script src="../../assets/js/admin-dashboard.js"></script>
-    <script>
-        // Check authentication and populate admin info
-        document.addEventListener('DOMContentLoaded', function() {
-            const auth = checkAuth();
-            if (auth.userType !== 'admin') {
-                window.location.href = '/index.html';
-                return;
-            }
+        <nav class="sidebar-menu d-grid gap-1">
+          <a href="#dashboard" data-section="dashboard" class="sidebar-link active"><i class="bx bxs-dashboard me-2"></i>Dashboard</a>
+          <a href="#users" data-section="users" class="sidebar-link"><i class="bx bxs-user-account me-2"></i>Users</a>
+          <a href="#providers" data-section="providers" class="sidebar-link"><i class="bx bxs-car-mechanic me-2"></i>Providers</a>
+          <a href="#bookings" data-section="bookings" class="sidebar-link"><i class="bx bxs-calendar-event me-2"></i>Bookings</a>
+          <a href="#messages" data-section="messages" class="sidebar-link"><i class="bx bxs-envelope me-2"></i>Messages</a>
+          <a href="#services" data-section="services" class="sidebar-link"><i class="bx bxs-cog me-2"></i>Services</a>
+          <a href="#reports" data-section="reports" class="sidebar-link"><i class="bx bxs-report me-2"></i>Reports</a>
+          <a href="#settings" data-section="settings" class="sidebar-link"><i class="bx bxs-cog me-2"></i>Settings</a>
+        </nav>
+      </div>
+    </aside>
 
-            // Populate admin email/display where present
-            try {
-                const adminEmailEl = document.getElementById('adminEmail');
-                if (adminEmailEl) adminEmailEl.textContent = auth.userEmail || '';
-            } catch (e) {
-                // ignore
-            }
-        });
-    </script>
-    <script>
-        // Robust sidebar section switcher (fallback implementation)
-        document.addEventListener('DOMContentLoaded', function () {
-            const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
-            const sections = document.querySelectorAll('.admin-section');
+    <section class="col-lg-10 col-md-9">
+      <!-- Admin sections -->
+      <div id="dashboard" class="admin-section section-active">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <h4 class="mb-0">Admin Dashboard</h4>
+            <small class="text-muted">Overview & analytics</small>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-primary btn-sm" onclick="exportData && exportData('csv')"><i class="bx bx-export"></i> Export</button>
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#generateReportModal"><i class="bx bx-plus"></i> Generate</button>
+          </div>
+        </div>
 
-            function setActiveLink(sectionId) {
-                sidebarLinks.forEach(link => {
-                    const href = (link.getAttribute('href') || '').replace('#', '');
-                    link.classList.toggle('active', href === sectionId);
-                });
-            }
+        <div class="row g-3 mb-3" id="statsRow">
+          <!-- Stats cards injected by JS -->
+        </div>
 
-            function showSection(id) {
-                if (!id) id = 'dashboard';
-                sections.forEach(s => {
-                    if (s.id === id) {
-                        s.style.display = '';
-                        s.classList.add('fade-in');
-                    } else {
-                        s.style.display = 'none';
-                        s.classList.remove('fade-in');
-                    }
-                });
+        <div class="row mb-4">
+          <div class="col-md-8">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h6 class="mb-0">Revenue Analytics</h6>
+                  <div class="btn-group btn-group-sm" role="group">
+                    <button class="btn btn-outline-secondary active">Year</button>
+                    <button class="btn btn-outline-secondary">Month</button>
+                    <button class="btn btn-outline-secondary">Week</button>
+                  </div>
+                </div>
+                <div id="revenueChart" style="height:260px"></div>
+              </div>
+            </div>
+          </div>
 
-                // ensure any non-section children are only visible on dashboard
-                const mainCol = document.querySelector('.col-lg-10');
-                if (mainCol) {
-                    Array.from(mainCol.children).forEach(child => {
-                        if (child.classList && child.classList.contains('admin-section')) return;
-                        child.style.display = (id === 'dashboard') ? '' : 'none';
-                    });
-                }
+          <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+              <div class="card-body">
+                <h6>Service Categories</h6>
+                <div id="serviceCategories" style="height:240px"></div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-                // Set active link
-                setActiveLink(id);
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <h6>System Health</h6>
+                <p class="small text-muted mb-2">Server Uptime: <span class="fw-bold">99.9%</span></p>
+                <div class="progress mb-2" style="height:8px;"><div class="progress-bar bg-success" style="width:99.9%"></div></div>
+                <p class="small text-muted mb-0">Response Time: <span class="fw-bold">120ms</span></p>
+              </div>
+            </div>
+          </div>
 
-                // Try to (re)initialize content if helper functions exist
-                try {
-                    if (typeof loadMockData === 'function') loadMockData();
-                } catch (e) {
-                    console.error('loadMockData error', e);
-                }
+          <div class="col-md-6">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <h6>Recent Activity</h6>
+                <div id="activityFeed"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-                // Let admin JS populate the specific section (users/providers/bookings/messages)
-                try {
-                    if (typeof loadSectionData === 'function') {
-                        loadSectionData(id);
-                    }
-                } catch (e) { console.error('loadSectionData error', e); }
+      <div id="users" class="admin-section" style="display:none;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div><h5 class="mb-0">Users</h5><small class="text-muted">Manage application users</small></div>
+          <div><button class="btn btn-primary btn-sm" id="addUserBtn">Add User</button></div>
+        </div>
 
-                try {
-                    if (window.jQuery && window.jQuery.fn && window.jQuery.fn.dataTable) {
-                        ['#usersTable', '#providersTable', '#bookingsTable'].forEach(tableId => {
-                            try {
-                                const $t = window.jQuery(tableId);
-                                if ($t.length) {
-                                    if (window.jQuery.fn.dataTable.isDataTable(tableId)) {
-                                        $t.DataTable().destroy();
-                                    }
-                                    $t.DataTable({ pageLength: 5, lengthChange: false, searching: false, info: false });
-                                }
-                            } catch (err) { /* ignore table init errors */ }
-                        });
-                    }
-                } catch (e) { console.error(e); }
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="usersTable" class="table table-striped table-bordered">
+                <thead><tr><th>User</th><th>Type</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody id="recentUsersList"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
 
-                try { window.location.hash = id; } catch (e) {}
-            }
+      <div id="providers" class="admin-section" style="display:none;">
+        <div class="mb-3"><h5 class="mb-0">Providers</h5><small class="text-muted">Manage providers</small></div>
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <table id="providersTable" class="table table-striped table-bordered">
+              <thead><tr><th>Provider</th><th>Services</th><th>Rating</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="activeProvidersList"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
-            sidebarLinks.forEach(link => {
-                link.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = (this.getAttribute('href') || '').replace('#', '');
-                    if (!target) return;
-                    showSection(target);
-                });
-            });
+      <div id="bookings" class="admin-section" style="display:none;">
+        <div class="mb-3 d-flex justify-content-between">
+          <div><h5 class="mb-0">Bookings</h5><small class="text-muted">Manage bookings</small></div>
+          <div class="btn-group btn-group-sm">
+            <button class="btn btn-outline-secondary" id="filterAllBookings">All</button>
+            <button class="btn btn-outline-primary" id="filterPendingBookings">Pending</button>
+            <button class="btn btn-outline-success" id="filterConfirmedBookings">Confirmed</button>
+          </div>
+        </div>
 
-            // initial
-            const initial = (window.location.hash || '#dashboard').replace('#', '');
-            showSection(initial);
-        });
-    </script>
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <table id="bookingsTable" class="table table-striped table-bordered">
+              <thead><tr><th>ID</th><th>User</th><th>Provider</th><th>Service</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="bookingsList"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="messages" class="admin-section" style="display:none;">
+        <div class="d-flex justify-content-between mb-3"><div><h5>Messages</h5><small class="text-muted">User & provider messages</small></div><div><button class="btn btn-primary btn-sm" id="composeMessageBtn">Compose</button></div></div>
+        <div class="card shadow-sm"><div class="card-body" id="messagesList"></div></div>
+      </div>
+
+      <div id="services" class="admin-section" style="display:none;">
+        <h5>Services</h5>
+        <div class="card shadow-sm"><div class="card-body">Service management UI placeholder.</div></div>
+      </div>
+
+      <div id="reports" class="admin-section" style="display:none;">
+        <h5>Reports</h5>
+        <div class="card shadow-sm"><div class="card-body">Reporting UI placeholder.</div></div>
+      </div>
+
+      <div id="settings" class="admin-section" style="display:none;">
+        <h5>Settings</h5>
+        <div class="card shadow-sm"><div class="card-body">Settings UI placeholder.</div></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- Generate Report Modal -->
+<div class="modal fade" id="generateReportModal" tabindex="-1">
+  <div class="modal-dialog">
+    <form id="reportForm" class="modal-content">
+      <div class="modal-header"><h6 class="modal-title">Generate Report</h6><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <label class="form-label">Report Type</label>
+        <select class="form-select mb-2" id="reportType" required>
+          <option value="users">Users</option>
+          <option value="providers">Providers</option>
+          <option value="bookings">Bookings</option>
+          <option value="revenue">Revenue</option>
+        </select>
+        <label class="form-label">Date Range</label>
+        <input type="text" class="form-control mb-2" id="reportDateRange" placeholder="Select date range" />
+        <div class="d-grid">
+          <button class="btn btn-primary">Generate</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer class="admin-footer mt-4 py-3">
+  <div class="container-fluid">
+    <div class="d-flex justify-content-between small text-muted">
+      <div>&copy; 2025 AutoEase</div>
+      <div><a href="#" class="text-muted">Privacy</a> · <a href="#" class="text-muted">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+<script src="../../assets/js/main.js"></script>
+<script src="../../assets/js/auth.js"></script>
+<script src="../../assets/js/admin-dashboard.js"></script>
 </body>
 </html>
